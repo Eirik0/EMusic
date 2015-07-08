@@ -155,7 +155,7 @@ public class SongMediator {
 	}
 
 	public void drawColumnHeader() {
-		DrawerHelper.drawColumnHeader(columnHeaderDrawer, view, songProperties);
+		DrawerHelper.drawColumnHeader(columnHeaderDrawer, view, songProperties, columnHeaderUserInput);
 	}
 
 	public void drawColumnHeaderOn(Graphics g) {

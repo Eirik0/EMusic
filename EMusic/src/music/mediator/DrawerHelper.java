@@ -37,8 +37,8 @@ public class DrawerHelper {
 	public static final Color TEXT_COLOR = Color.BLACK;
 
 	public static final Color[] NOTE_COLORS = new Color[] {
-			Color.RED, SLATE_BLUE, Color.GREEN, Color.MAGENTA, Color.ORANGE, Color.CYAN, CHARTREUSE, KHAKI,
-			DARK_RED, Color.BLUE, DARK_GREEN, DARK_MAGENTA, DARK_ORANGE, DARK_CYAN, SPRING_GREEN, Color.YELLOW };
+		Color.RED, SLATE_BLUE, Color.GREEN, Color.MAGENTA, Color.ORANGE, Color.CYAN, CHARTREUSE, KHAKI,
+		DARK_RED, Color.BLUE, DARK_GREEN, DARK_MAGENTA, DARK_ORANGE, DARK_CYAN, SPRING_GREEN, Color.YELLOW };
 
 	public static void drawBackground(IDrawer drawer, ISongView view, ISongProperties songProperties) {
 		drawer.setComponentSize(view.getWidth(), view.getHeight());
@@ -113,13 +113,14 @@ public class DrawerHelper {
 		drawKeys(drawer, view.getY0(), EMusic.HEADER_WIDTH, view.getHeight(), songProperties.getNoteDimension().getNoteHeight(), true);
 	}
 
-	public static void drawColumnHeader(IDrawer drawer, ISongView view, ISongProperties songProperties) {
+	public static void drawColumnHeader(IDrawer drawer, ISongView view, ISongProperties songProperties, IUserInput userInput) {
 		drawer.setComponentSize(view.getWidth(), EMusic.HEADER_HEIGHT);
 		drawer.setColor(Color.WHITE);
 		drawer.fillRect(0, 0, view.getWidth(), EMusic.HEADER_HEIGHT);
 		drawBars(drawer, view, songProperties, true);
 		double barInPixels = songProperties.getNoteDimension().durationInPixels(songProperties.getTimeSignature().getDurationOfBar());
 		drawBarText(drawer, view.getX0(), 6, view.getWidth(), barInPixels, TEXT_COLOR);
+		drawColumnHeaderMouse(drawer, userInput);
 		drawPlayerStart(drawer, view, songProperties);
 	}
 
@@ -136,8 +137,20 @@ public class DrawerHelper {
 
 	private static void drawPlayerStart(IDrawer drawer, ISongView view, ISongProperties songProperties) {
 		double x = songProperties.getNoteDimension().durationInPixels(songProperties.getPlayerStart()) - view.getX0();
-		drawer.setColor(Color.RED);
-		drawer.drawLine(EMath.round(x), 0, EMath.round(x), EMusic.HEADER_HEIGHT);
+		drawStartArrow(drawer, x, PLAYER_BAR_COLOR);
+	}
+
+	private static void drawStartArrow(IDrawer drawer, double x, Color color) {
+		drawer.setColor(color);
+		drawer.drawLine(EMath.round(x), EMath.round((double) EMusic.HEADER_HEIGHT / 2), EMath.round(x), EMusic.HEADER_HEIGHT);
+		drawer.drawLine(EMath.round(x) - 3, EMusic.HEADER_HEIGHT - 5, EMath.round(x), EMusic.HEADER_HEIGHT);
+		drawer.drawLine(EMath.round(x) + 3, EMusic.HEADER_HEIGHT - 5, EMath.round(x), EMusic.HEADER_HEIGHT);
+	}
+
+	public static void drawColumnHeaderMouse(IDrawer drawer, IUserInput userInput) {
+		if (userInput.isMouseEntered()) {
+			drawStartArrow(drawer, userInput.getMouseX(), BEAT_COLOR);
+		}
 	}
 
 	public static void drawSong(IDrawer drawer, ISongView view, ISongProperties songProperties, Song song) {

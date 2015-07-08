@@ -15,6 +15,7 @@ public class SongMediatorHeaderDrawingTest {
 	public void testDrawColumnHeader_Bar() {
 		TestDrawer drawer = new TestDrawer();
 		SongMediator songMediator = TestMediatorCreator.newMediator(new Song(), 0, 0, 300, 224, new TestDrawer());
+		songMediator.setColumnHeaderUserInput(new TestUserInput(0, 0));
 		songMediator.setHeaderDrawers(null, drawer);
 		songMediator.drawColumnHeader();
 		assertTrue("Bar 1", drawer.lines.contains(new MockLine(0, 16, 0, EMusic.HEADER_HEIGHT, DrawerHelper.BAR_COLOR)));
@@ -25,10 +26,19 @@ public class SongMediatorHeaderDrawingTest {
 	public void testDrawColumnHeader_BarNumber() {
 		TestDrawer drawer = new TestDrawer();
 		SongMediator songMediator = TestMediatorCreator.newMediator(new Song(), 0, 0, 300, 224, new TestDrawer());
+		songMediator.setColumnHeaderUserInput(new TestUserInput(0, 0));
 		songMediator.setHeaderDrawers(null, drawer);
 		songMediator.drawColumnHeader();
 		assertTrue("1", drawer.strings.contains(new MockString(0, 6, "1", DrawerHelper.TEXT_COLOR)));
 		assertTrue("2", drawer.strings.contains(new MockString(256, 6, "2", DrawerHelper.TEXT_COLOR)));
+	}
+
+	@Test
+	public void testDrawColumnHeaderMouse() {
+		TestDrawer drawer = new TestDrawer();
+		TestUserInput userInput = new TestUserInput(100, 0);
+		DrawerHelper.drawColumnHeaderMouse(drawer, userInput);
+		assertTrue(drawer.lines.contains(new MockLine(100, EMusic.HEADER_HEIGHT / 2, 100, EMusic.HEADER_HEIGHT, DrawerHelper.BEAT_COLOR)));
 	}
 
 	@Test
@@ -63,4 +73,5 @@ public class SongMediatorHeaderDrawingTest {
 		songMediator.drawRowHeader();
 		assertTrue("C9", drawer.strings.contains(new MockString(8, 0 - 3, "C9", DrawerHelper.TEXT_COLOR)));
 	}
+
 }
