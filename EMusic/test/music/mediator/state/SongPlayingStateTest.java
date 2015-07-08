@@ -12,6 +12,7 @@ import music.mediator.TestTimer;
 import music.mediator.TestUserInput;
 import music.mediator.TestView;
 import music.mediator.drawer.MockLine;
+import music.mediator.drawer.MockRectangle;
 import music.mediator.drawer.TestDrawer;
 
 import org.junit.Test;
@@ -129,5 +130,21 @@ public class SongPlayingStateTest {
 		MockLine expected = new MockLine(64, 0, 64, TestMediatorCreator.DEFAULT_HEIGHT, DrawerHelper.PLAYER_BAR_COLOR);
 		assertTrue(drawer.lines.get(0).toString(), drawer.lines.contains(expected));
 		assertEquals(192, view.getX0());
+	}
+
+	@Test
+	public void testHighlightPlayingNotes() throws InterruptedException {
+		Song song = TestMusicCreator.newWholeNoteScale(0);
+		TestView view = new TestView(0, 0, 2048, TestMediatorCreator.DEFAULT_HEIGHT);
+		TestDrawer drawer = new TestDrawer();
+		TestTimer timer = new TestTimer();
+		TestSongProperties properties = new TestSongProperties();
+		properties.setTempo(60);
+		SongMediator mediator = TestMediatorCreator.newMediator(song, view, properties, drawer, timer);
+		mediator.setState(SongPlayingState.class);
+		timer.timeElapsed = 10000; // 640 pixels
+		Thread.sleep(50);
+		mediator.drawState();
+		assertTrue("E8", drawer.rectangles.contains(new MockRectangle(513, 129, 254, 14, DrawerHelper.inverse(DrawerHelper.NOTE_COLORS[0]), true)));
 	}
 }

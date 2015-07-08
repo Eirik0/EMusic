@@ -152,12 +152,12 @@ public class NoteEntryState implements IMediatorState {
 			Duration noteStartDuration = durationStart(clickStartX);
 			Note note = createNote(noteStartDuration, true);
 			double noteStartX = songProperties.getNoteDimension().durationInPixels(noteStartDuration);
-			DrawerHelper.drawNote(drawer, view, songProperties.getNoteDimension(), note, noteStartX, songProperties.getSelectedVoice());
+			DrawerHelper.drawNote(drawer, view, songProperties.getNoteDimension(), note, noteStartX, songProperties.getSelectedVoice(), false);
 		} else if (userInput.isMouseEntered()) {
 			Duration noteStartDuration = durationStart(view.getX0() + userInput.getMouseX());
 			Note note = createNote(noteStartDuration, false);
 			double noteStartX = songProperties.getNoteDimension().durationInPixels(noteStartDuration);
-			DrawerHelper.drawNote(drawer, view, songProperties.getNoteDimension(), note, noteStartX, songProperties.getSelectedVoice());
+			DrawerHelper.drawNote(drawer, view, songProperties.getNoteDimension(), note, noteStartX, songProperties.getSelectedVoice(), false);
 		}
 	}
 
