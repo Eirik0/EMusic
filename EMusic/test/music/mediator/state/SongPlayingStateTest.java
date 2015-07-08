@@ -70,7 +70,7 @@ public class SongPlayingStateTest {
 		TestTimer timer = new TestTimer();
 		SongMediator mediator = TestMediatorCreator.newMediator(song, view, new TestSongProperties(), drawer, timer);
 		mediator.setColumnHeaderUserInput(new TestUserInput(32, 5));
-		mediator.setPlayerStartFromHeader();
+		mediator.setPlayerStartFromHeader(false);
 		mediator.setState(SongPlayingState.class);
 		Thread.sleep(50);
 		mediator.drawState();
@@ -86,7 +86,7 @@ public class SongPlayingStateTest {
 		TestTimer timer = new TestTimer();
 		SongMediator mediator = TestMediatorCreator.newMediator(song, view, new TestSongProperties(), drawer, timer);
 		mediator.setColumnHeaderUserInput(new TestUserInput(32, 5));
-		mediator.setPlayerStartFromHeader();
+		mediator.setPlayerStartFromHeader(false);
 		mediator.setState(SongPlayingState.class);
 		Thread.sleep(50);
 		mediator.drawState();
@@ -103,7 +103,7 @@ public class SongPlayingStateTest {
 		TestTimer timer = new TestTimer();
 		SongMediator mediator = TestMediatorCreator.newMediator(song, view, new TestSongProperties(), drawer, timer);
 		mediator.setColumnHeaderUserInput(new TestUserInput(96, 5));
-		mediator.setPlayerStartFromHeader();
+		mediator.setPlayerStartFromHeader(false);
 		view.setPosition(128, 0);
 		mediator.setState(SongPlayingState.class);
 		Thread.sleep(50);
@@ -121,7 +121,7 @@ public class SongPlayingStateTest {
 		TestTimer timer = new TestTimer();
 		SongMediator mediator = TestMediatorCreator.newMediator(song, view, new TestSongProperties(), drawer, timer);
 		mediator.setColumnHeaderUserInput(new TestUserInput(256, 5));
-		mediator.setPlayerStartFromHeader();
+		mediator.setPlayerStartFromHeader(false);
 		view.setPosition(0, 0);
 		mediator.setState(SongPlayingState.class);
 		Thread.sleep(50);

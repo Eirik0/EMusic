@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.io.File;
 
 import jmusic.JMusicPlayer;
+import music.Duration;
 import music.Song;
 import music.mediator.state.IMediatorState;
 import music.mediator.state.MediatorStateFactory;
@@ -76,10 +77,14 @@ public class SongMediator {
 		state.setSong(song);
 	}
 
-	public void setPlayerStartFromHeader() {
-		int x = view.getX0() + columnHeaderUserInput.getMouseX();
-		double d = x / (songProperties.getNoteDimension().getSixteenthNoteWidth() * 16);
-		songProperties.setPlayerStart(EMath.guessDuration(d));
+	public void setPlayerStartFromHeader(boolean backToStart) {
+		if (backToStart) {
+			songProperties.setPlayerStart(Duration.ZERO);
+		} else {
+			int x = view.getX0() + columnHeaderUserInput.getMouseX();
+			double d = x / (songProperties.getNoteDimension().getSixteenthNoteWidth() * 16);
+			songProperties.setPlayerStart(EMath.guessDuration(d));
+		}
 	}
 
 	public void loadSongFromFile(File file) {

@@ -14,7 +14,7 @@ public class HeaderMouseController implements IMouseController {
 
 	@Override
 	public void onMousePressed(int button) {
-		songMediator.setPlayerStartFromHeader();
+		songMediator.setPlayerStartFromHeader(false);
 	}
 
 	@Override

@@ -17,10 +17,12 @@ import gui.properties.SongPropertiesPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -78,7 +80,7 @@ public class EMusic {
 		timeSignatureColumnHeader.addMouseMotionListener(headerMouseAdapter);
 		songMediator.setColumnHeaderUserInput(new ViewUserInput(headerMouseAdapter));
 
-		setupScrollPane(scrollPane, pianoKeyRowHeader, timeSignatureColumnHeader);
+		setupScrollPane(scrollPane, songMediator, pianoKeyRowHeader, timeSignatureColumnHeader);
 
 		ViewportView view = new ViewportView(viewport, pianoKeyRowHeader, timeSignatureColumnHeader);
 		songMediator.setView(view);
@@ -115,10 +117,18 @@ public class EMusic {
 		return scrollPane;
 	}
 
-	private static void setupScrollPane(JScrollPane scrollPane, PianoKeyRowHeader pianoKeyRowHeader, TimeSignatureColumnHeader timeSignatureColumnHeader) {
+	private static void setupScrollPane(JScrollPane scrollPane, SongMediator songMediator, PianoKeyRowHeader pianoKeyRowHeader,
+			TimeSignatureColumnHeader timeSignatureColumnHeader) {
 		scrollPane.setRowHeaderView(pianoKeyRowHeader);
 		scrollPane.setColumnHeaderView(timeSignatureColumnHeader);
-		scrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER, ComponentFactory.createPanel(null));
+		JPanel cornerPanel = ComponentFactory.createPanel(null);
+		JButton backToStartButton = ComponentFactory.createButton("<", e -> {
+			songMediator.setPlayerStartFromHeader(true);
+			timeSignatureColumnHeader.repaint();
+		});
+		backToStartButton.setMargin(new Insets(0, 2, 0, 2));
+		cornerPanel.add(backToStartButton);
+		scrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER, cornerPanel);
 		scrollPane.setCorner(JScrollPane.UPPER_RIGHT_CORNER, ComponentFactory.createPanel(null));
 	}
 
