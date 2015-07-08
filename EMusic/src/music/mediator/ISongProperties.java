@@ -23,6 +23,8 @@ public interface ISongProperties {
 
 	public Duration getPlayerStart();
 
+	public void setPlayerStart(Duration start);
+
 	public boolean shouldDrawBars();
 
 	public boolean shouldDrawKeys();

@@ -9,11 +9,11 @@ import music.properties.TimeSignature;
 
 public class ViewSongProperties implements ISongProperties {
 	private final SongPropertiesPanel propertiesPanel;
-	private final TimeSignatureColumnHeader header;
+	private final TimeSignatureColumnHeader timeSignatureHeader;
 
 	public ViewSongProperties(SongPropertiesPanel propertiesPanel, TimeSignatureColumnHeader header) {
 		this.propertiesPanel = propertiesPanel;
-		this.header = header;
+		this.timeSignatureHeader = header;
 	}
 
 	@Override
@@ -58,7 +58,12 @@ public class ViewSongProperties implements ISongProperties {
 
 	@Override
 	public Duration getPlayerStart() {
-		return header.getPlayerStart();
+		return timeSignatureHeader.getPlayerStart();
+	}
+
+	@Override
+	public void setPlayerStart(Duration start) {
+		timeSignatureHeader.setPlayerStart(start);
 	}
 
 	@Override

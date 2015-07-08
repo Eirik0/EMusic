@@ -46,6 +46,11 @@ public class TestSongProperties implements ISongProperties {
 	}
 
 	@Override
+	public void setPlayerStart(Duration start) {
+		playerStart = start;
+	}
+
+	@Override
 	public void setTimeSignature(TimeSignature timeSignature) {
 		this.timeSignature = timeSignature;
 	}

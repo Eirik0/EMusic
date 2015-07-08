@@ -14,11 +14,12 @@ public class HeaderMouseController implements IMouseController {
 
 	@Override
 	public void onMousePressed(int button) {
-		header.setPlayerStart(songMediator.calculatePlayerStart());
+		songMediator.setPlayerStartFromHeader();
 	}
 
 	@Override
 	public void onMouseReleased() {
+		header.repaint();
 	}
 
 	@Override

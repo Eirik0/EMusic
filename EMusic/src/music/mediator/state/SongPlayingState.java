@@ -24,6 +24,7 @@ public class SongPlayingState implements IMediatorState {
 	private final ISongProperties songProperties;
 
 	private SongPlayingRunnable songPlayingRunnable;
+	private final Duration playerStart;
 
 	public SongPlayingState(ISongView view, IDrawer drawer, ISongPlayer player, ITimer timer, ISongProperties songProperties) {
 		this.view = view;
@@ -31,13 +32,11 @@ public class SongPlayingState implements IMediatorState {
 		this.player = player;
 		this.timer = timer;
 		this.songProperties = songProperties;
+		playerStart = songProperties.getPlayerStart();
 	}
 
 	@Override
 	public void setSong(Song song) {
-		if (songPlayingRunnable != null) {
-			songPlayingRunnable.stopRequested = true;
-		}
 		songPlayingRunnable = new SongPlayingRunnable(song);
 		new Thread(songPlayingRunnable).start();
 	}
@@ -60,7 +59,7 @@ public class SongPlayingState implements IMediatorState {
 	private double getPixelsElapsed() {
 		double pixelsPerQuarterNote = songProperties.getNoteDimension().getSixteenthNoteWidth() * 4;
 		double beatsElapsed = getBeatsElapsed();
-		double offset = songProperties.getNoteDimension().durationInPixels(songProperties.getPlayerStart());
+		double offset = songProperties.getNoteDimension().durationInPixels(playerStart);
 		return beatsElapsed * pixelsPerQuarterNote + offset;
 	}
 
@@ -87,10 +86,10 @@ public class SongPlayingState implements IMediatorState {
 
 		@Override
 		public void run() {
-			Duration start = songProperties.getPlayerStart();
+			Duration totalDuration = song.totalDuration();
 			ArrayList<Entry<Duration, Chord>> chordList = song.chordList();
 			int i = 0;
-			for (; !stopRequested && i < chordList.size() && chordList.get(i).getKey().compareTo(start) < 0; i++) {
+			for (; !stopRequested && i < chordList.size() && chordList.get(i).getKey().compareTo(playerStart) < 0; i++) {
 				// skip notes before the requested start
 			}
 			if (i < chordList.size()) {
@@ -104,16 +103,20 @@ public class SongPlayingState implements IMediatorState {
 				}
 			}
 
-			Duration totalDuration = song.totalDuration();
 			double pixelsElapsed = getPixelsElapsed();
 			int lastX = Integer.MIN_VALUE;
 			while (!stopRequested && pixelsElapsed < songProperties.getNoteDimension().durationInPixels(totalDuration)) {
 				pixelsElapsed = getPixelsElapsed();
-				int x = EMath.round(pixelsElapsed - (double) view.getWidth() / 2);
+				double halfWidth = (double) view.getWidth() / 2;
+				int x = pixelsElapsed <= view.getX0() ? EMath.round(pixelsElapsed) : EMath.round(pixelsElapsed - halfWidth);
 				if (x != lastX) {
-					view.setPosition(Math.max(0, x), view.getY0());
-					lastX = x;
+					if (pixelsElapsed < view.getX0() || pixelsElapsed > view.getX0() + halfWidth) {
+						view.setPosition(Math.max(0, x), view.getY0());
+					} else {
+						view.repaint();
+					}
 				}
+				lastX = x;
 				try {
 					Thread.sleep(0, 500000);
 				} catch (InterruptedException e) {
