@@ -20,7 +20,7 @@ public class OpenSavePanel extends JPanel {
 		fileChooser = new JFileChooser();
 
 		JButton openButton = ComponentFactory.createButton("Open", e -> {
-			if (fileChooser.showDialog(this, null) == JFileChooser.APPROVE_OPTION) {
+			if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 				File selectedFile = fileChooser.getSelectedFile();
 				songMediator.loadSongFromFile(selectedFile);
 			}

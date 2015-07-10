@@ -125,7 +125,7 @@ public class SongPlayingState implements IMediatorState {
 			int lastX = Integer.MIN_VALUE;
 
 			while (!stopRequested && pixelsElapsed < songProperties.getNoteDimension().durationInPixels(totalDuration)) {
-				Duration currentDuration = EMath.guessDuration(getBeatsElapsed() / 4);
+				Duration currentDuration = playerStart.add(EMath.guessDuration(getBeatsElapsed() / 4));
 
 				// find which notes are playing
 				List<PositionedNote> newNotesToPlay = new ArrayList<>();
