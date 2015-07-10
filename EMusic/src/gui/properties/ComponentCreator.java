@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 
-public class ComponentFactory {
+public class ComponentCreator {
 	public static JButton createButton(String text, Consumer<ActionEvent> consumer) {
 		JButton button = new JButton(text);
 		button.setBackground(Color.WHITE);
@@ -31,7 +31,7 @@ public class ComponentFactory {
 		return checkBox;
 	}
 
-	public static <T> JComboBox<T> newComboBox(T[] selectable, T defaultValue, Consumer<T> selectionConsumer) {
+	public static <T> JComboBox<T> createComboBox(T[] selectable, T defaultValue, Consumer<T> selectionConsumer) {
 		JComboBox<T> comboBox = new JComboBox<>(selectable);
 		comboBox.setSelectedItem(defaultValue);
 		comboBox.setBackground(Color.WHITE);

@@ -1,6 +1,7 @@
 package music.mediator;
 
 import music.Duration;
+import music.properties.DrawingOptions;
 import music.properties.NoteDimension;
 import music.properties.TimeSignature;
 
@@ -25,7 +26,5 @@ public interface ISongProperties {
 
 	public void setPlayerStart(Duration start);
 
-	public boolean shouldDrawBars();
-
-	public boolean shouldDrawKeys();
+	public DrawingOptions getDrawingOptions();
 }

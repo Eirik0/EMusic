@@ -29,12 +29,12 @@ public class SelectedVoicePanel extends JPanel {
 		setLayout(new FlowLayout(FlowLayout.LEADING));
 		setBackground(Color.WHITE);
 
-		instrumentComboBox = ComponentFactory.newComboBox(SelectableIsntrument.INSTRUMENTS, SelectableIsntrument.INSTRUMENTS[0],
+		instrumentComboBox = ComponentCreator.createComboBox(SelectableIsntrument.INSTRUMENTS, SelectableIsntrument.INSTRUMENTS[0],
 				instrument -> instruments[selectedVoice] = instrument.number);
 
 		JToggleButton[] buttons = createVoiceSelectionButtons();
 
-		JPanel buttonPanel = ComponentFactory.createPanel(new GridLayout(2, 8));
+		JPanel buttonPanel = ComponentCreator.createPanel(new GridLayout(2, 8));
 		for (JToggleButton button : buttons) {
 			buttonPanel.add(button);
 		}

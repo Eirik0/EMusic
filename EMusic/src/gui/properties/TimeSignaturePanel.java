@@ -24,17 +24,17 @@ public class TimeSignaturePanel extends JPanel {
 		setLayout(new FlowLayout(FlowLayout.LEADING));
 		setBackground(Color.WHITE);
 
-		meterComboBox = ComponentFactory.newComboBox(EMusic.METERS, timeSignature.getMeter(),
+		meterComboBox = ComponentCreator.createComboBox(EMusic.METERS, timeSignature.getMeter(),
 				duration -> {
 					timeSignature.setMeter(duration);
 					songMediator.repaintView();
 				});
-		noteDuratioComboBox = ComponentFactory.newComboBox(EMusic.NOTE_DURATIONS, timeSignature.getNoteDuration(),
+		noteDuratioComboBox = ComponentCreator.createComboBox(EMusic.NOTE_DURATIONS, timeSignature.getNoteDuration(),
 				duration -> {
 					timeSignature.setNoteDuration(duration);
 					songMediator.repaintView();
 				});
-		divisionComboBox = ComponentFactory.newComboBox(EMusic.NOTE_DIVISIONS, timeSignature.getCalculatedDivision(),
+		divisionComboBox = ComponentCreator.createComboBox(EMusic.NOTE_DIVISIONS, timeSignature.getCalculatedDivision(),
 				duration -> {
 					timeSignature.setDivision(duration);
 					songMediator.repaintView();

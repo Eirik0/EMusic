@@ -4,6 +4,7 @@ import gui.TimeSignatureColumnHeader;
 import gui.properties.SongPropertiesPanel;
 import music.Duration;
 import music.mediator.ISongProperties;
+import music.properties.DrawingOptions;
 import music.properties.NoteDimension;
 import music.properties.TimeSignature;
 
@@ -13,7 +14,7 @@ public class ViewSongProperties implements ISongProperties {
 
 	public ViewSongProperties(SongPropertiesPanel propertiesPanel, TimeSignatureColumnHeader header) {
 		this.propertiesPanel = propertiesPanel;
-		this.timeSignatureHeader = header;
+		timeSignatureHeader = header;
 	}
 
 	@Override
@@ -67,12 +68,7 @@ public class ViewSongProperties implements ISongProperties {
 	}
 
 	@Override
-	public boolean shouldDrawBars() {
-		return propertiesPanel.shouldDrawBars();
-	}
-
-	@Override
-	public boolean shouldDrawKeys() {
-		return propertiesPanel.shouldDrawKeys();
+	public DrawingOptions getDrawingOptions() {
+		return propertiesPanel.getDrawingOptions();
 	}
 }

@@ -2,6 +2,7 @@ package music.mediator;
 
 import main.EMusic;
 import music.Duration;
+import music.properties.DrawingOptions;
 import music.properties.NoteDimension;
 import music.properties.TimeSignature;
 
@@ -12,8 +13,7 @@ public class TestSongProperties implements ISongProperties {
 	private int[] instruments = new int[EMusic.NUMBER_OF_VOICES];
 	private int tempo = 0;
 	public Duration playerStart = Duration.ZERO;
-	public boolean drawBars = true;
-	public boolean drawKeys = true;
+	public DrawingOptions options = new DrawingOptions();
 
 	@Override
 	public int getSelectedVoice() {
@@ -66,12 +66,7 @@ public class TestSongProperties implements ISongProperties {
 	}
 
 	@Override
-	public boolean shouldDrawBars() {
-		return drawBars;
-	}
-
-	@Override
-	public boolean shouldDrawKeys() {
-		return drawKeys;
+	public DrawingOptions getDrawingOptions() {
+		return options;
 	}
 }

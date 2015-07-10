@@ -11,7 +11,7 @@ import gui.mediator.ViewportView;
 import gui.mouse.HeaderMouseController;
 import gui.mouse.SongMouseAdapter;
 import gui.mouse.ViewMouseController;
-import gui.properties.ComponentFactory;
+import gui.properties.ComponentCreator;
 import gui.properties.SongPropertiesPanel;
 
 import java.awt.BorderLayout;
@@ -121,15 +121,15 @@ public class EMusic {
 			TimeSignatureColumnHeader timeSignatureColumnHeader) {
 		scrollPane.setRowHeaderView(pianoKeyRowHeader);
 		scrollPane.setColumnHeaderView(timeSignatureColumnHeader);
-		JPanel cornerPanel = ComponentFactory.createPanel(null);
-		JButton backToStartButton = ComponentFactory.createButton("<", e -> {
+		JPanel cornerPanel = ComponentCreator.createPanel(null);
+		JButton backToStartButton = ComponentCreator.createButton("<", e -> {
 			songMediator.setPlayerStartFromHeader(true);
 			timeSignatureColumnHeader.repaint();
 		});
 		backToStartButton.setMargin(new Insets(0, 2, 0, 2));
 		cornerPanel.add(backToStartButton);
 		scrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER, cornerPanel);
-		scrollPane.setCorner(JScrollPane.UPPER_RIGHT_CORNER, ComponentFactory.createPanel(null));
+		scrollPane.setCorner(JScrollPane.UPPER_RIGHT_CORNER, ComponentCreator.createPanel(null));
 	}
 
 	private static void setupViewport(JViewport viewport, SongMediator songMediator, SongScrollablePanel songPanel, SongMouseAdapter songMouseAdapter) {

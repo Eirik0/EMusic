@@ -12,6 +12,7 @@ import javax.swing.JSplitPane;
 import music.mediator.SongMediator;
 import music.mediator.state.NoteEntryState;
 import music.mediator.state.SongPlayingState;
+import music.properties.DrawingOptions;
 import music.properties.NoteDimension;
 import music.properties.TimeSignature;
 
@@ -38,16 +39,16 @@ public class SongPropertiesPanel extends JPanel {
 		noteDimensionPanel = new NoteDimensionPanel(songMediator);
 		drawerOptionsPanel = new DrawerOptionsPanel(songMediator);
 
-		tempoSlider = ComponentFactory.createSlider(JSlider.HORIZONTAL, 10, 300, 30, DEFAULT_TEMPO, value -> {
+		tempoSlider = ComponentCreator.createSlider(JSlider.HORIZONTAL, 10, 300, 30, DEFAULT_TEMPO, value -> {
 			tempo = value;
 			tempoValueLabel.setText(String.valueOf(tempo));
 		});
 
-		add(ComponentFactory.createSplitPane(JSplitPane.VERTICAL_SPLIT, createTopPanel(), createBottomPanel()));
+		add(ComponentCreator.createSplitPane(JSplitPane.VERTICAL_SPLIT, createTopPanel(), createBottomPanel()));
 		add(Box.createHorizontalStrut(20));
-		add(ComponentFactory.createSplitPane(JSplitPane.VERTICAL_SPLIT,
-				ComponentFactory.createButton("Play", e -> songMediator.setState(SongPlayingState.class)),
-				ComponentFactory.createButton("Stop", e -> songMediator.setState(NoteEntryState.class))));
+		add(ComponentCreator.createSplitPane(JSplitPane.VERTICAL_SPLIT,
+				ComponentCreator.createButton("Play", e -> songMediator.setState(SongPlayingState.class)),
+				ComponentCreator.createButton("Stop", e -> songMediator.setState(NoteEntryState.class))));
 		add(Box.createHorizontalStrut(20));
 		add(noteDimensionPanel);
 		add(Box.createHorizontalStrut(20));
@@ -57,7 +58,7 @@ public class SongPropertiesPanel extends JPanel {
 	}
 
 	private JPanel createTopPanel() {
-		JPanel topPanel = ComponentFactory.createPanel(new FlowLayout(FlowLayout.LEADING));
+		JPanel topPanel = ComponentCreator.createPanel(new FlowLayout(FlowLayout.LEADING));
 
 		topPanel.add(new JLabel("Instrument: "));
 		topPanel.add(selectedVoicePanel.instrumentComboBox);
@@ -70,7 +71,7 @@ public class SongPropertiesPanel extends JPanel {
 	}
 
 	private JPanel createBottomPanel() {
-		JPanel bottomPanel = ComponentFactory.createPanel(new FlowLayout(FlowLayout.LEADING));
+		JPanel bottomPanel = ComponentCreator.createPanel(new FlowLayout(FlowLayout.LEADING));
 
 		bottomPanel.add(selectedVoicePanel);
 		bottomPanel.add(Box.createHorizontalStrut(12));
@@ -113,11 +114,7 @@ public class SongPropertiesPanel extends JPanel {
 		tempoSlider.setValue(tempo);
 	}
 
-	public boolean shouldDrawBars() {
-		return drawerOptionsPanel.shouldDrawBars();
-	}
-
-	public boolean shouldDrawKeys() {
-		return drawerOptionsPanel.shouldDrawKeys();
+	public DrawingOptions getDrawingOptions() {
+		return drawerOptionsPanel.getDrawingOptions();
 	}
 }

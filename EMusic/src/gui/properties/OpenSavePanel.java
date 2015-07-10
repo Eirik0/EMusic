@@ -19,20 +19,20 @@ public class OpenSavePanel extends JPanel {
 
 		fileChooser = new JFileChooser();
 
-		JButton openButton = ComponentFactory.createButton("Open", e -> {
+		JButton openButton = ComponentCreator.createButton("Open", e -> {
 			if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 				File selectedFile = fileChooser.getSelectedFile();
 				songMediator.loadSongFromFile(selectedFile);
 			}
 		});
 
-		JButton saveButton = ComponentFactory.createButton("Save", e -> {
+		JButton saveButton = ComponentCreator.createButton("Save", e -> {
 			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 				File selectedFile = fileChooser.getSelectedFile();
 				songMediator.saveSongToFile(selectedFile);
 			}
 		});
 
-		add(ComponentFactory.createSplitPane(JSplitPane.VERTICAL_SPLIT, openButton, saveButton));
+		add(ComponentCreator.createSplitPane(JSplitPane.VERTICAL_SPLIT, openButton, saveButton));
 	}
 }

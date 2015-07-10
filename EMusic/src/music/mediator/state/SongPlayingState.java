@@ -57,9 +57,11 @@ public class SongPlayingState implements IMediatorState {
 
 	@Override
 	public void draw() {
-		int x = EMath.round(Math.min(view.getWidth() / 2, getPixelsElapsed() - view.getX0()));
-		drawer.setColor(DrawerHelper.PLAYER_BAR_COLOR);
-		drawer.drawLine(x, 0, x, view.getHeight());
+		if (songProperties.getDrawingOptions().shouldDrawPlayingLine()) {
+			int x = EMath.round(Math.min(view.getWidth() / 2, getPixelsElapsed() - view.getX0()));
+			drawer.setColor(DrawerHelper.PLAYER_BAR_COLOR);
+			drawer.drawLine(x, 0, x, view.getHeight());
+		}
 
 		NoteDimension noteDimension = songProperties.getNoteDimension();
 		for (PositionedNote positionedNote : notesBeingPlayed) {

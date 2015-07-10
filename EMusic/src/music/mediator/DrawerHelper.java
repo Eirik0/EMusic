@@ -42,7 +42,7 @@ public class DrawerHelper {
 
 	public static void drawBackground(IDrawer drawer, ISongView view, ISongProperties songProperties) {
 		drawer.setComponentSize(view.getWidth(), view.getHeight());
-		if (songProperties.shouldDrawKeys()) {
+		if (songProperties.getDrawingOptions().shouldDrawKeys()) {
 			drawKeys(drawer, view.getY0(), view.getWidth(), view.getHeight(), songProperties.getNoteDimension().getNoteHeight(), false);
 		} else {
 			drawer.setColor(Color.BLACK);
@@ -77,7 +77,7 @@ public class DrawerHelper {
 	}
 
 	public static void drawBars(IDrawer drawer, ISongView view, ISongProperties songProperties) {
-		if (songProperties.shouldDrawBars()) {
+		if (songProperties.getDrawingOptions().shouldDrawBars()) {
 			drawBars(drawer, view, songProperties, false);
 		}
 	}
@@ -88,7 +88,7 @@ public class DrawerHelper {
 		int div1Y0 = isHeader ? 28 : 0;
 		int div2Y0 = isHeader ? 30 : 0;
 		int height = isHeader ? EMusic.HEADER_HEIGHT : view.getHeight();
-		Color barColor = songProperties.shouldDrawKeys() || isHeader ? BAR_COLOR : Color.WHITE;
+		Color barColor = songProperties.getDrawingOptions().shouldDrawKeys() || isHeader ? BAR_COLOR : Color.WHITE;
 		double divisionInPixels = songProperties.getNoteDimension().durationInPixels(songProperties.getTimeSignature().getCalculatedDivision());
 		double noteDuration = songProperties.getNoteDimension().durationInPixels(songProperties.getTimeSignature().getNoteDuration());
 		double beatInPixels = songProperties.getNoteDimension().durationInPixels(songProperties.getTimeSignature().getDurationOfBeat());

@@ -28,10 +28,10 @@ public class NoteDimensionPanel extends JPanel {
 		JButton rightButton = createPlusMinusButton(">", () -> noteDimension.setSixteenthNoteWidth(noteDimension.getSixteenthNoteWidth() + 0.5));
 		JButton leftButton = createPlusMinusButton("<", () -> noteDimension.setSixteenthNoteWidth(noteDimension.getSixteenthNoteWidth() - 0.5));
 
-		JPanel upPanel = ComponentFactory.createPanel(null);
+		JPanel upPanel = ComponentCreator.createPanel(null);
 		upPanel.add(upButton, BorderLayout.CENTER);
 
-		JPanel downPanel = ComponentFactory.createPanel(null);
+		JPanel downPanel = ComponentCreator.createPanel(null);
 		downPanel.add(downButton, BorderLayout.CENTER);
 
 		add(new JLabel(" size "), BorderLayout.CENTER);
@@ -42,7 +42,7 @@ public class NoteDimensionPanel extends JPanel {
 	}
 
 	private JButton createPlusMinusButton(String text, Runnable action) {
-		JButton button = ComponentFactory.createButton(text, e -> {
+		JButton button = ComponentCreator.createButton(text, e -> {
 			action.run();
 			songMediator.resizeView();
 		});

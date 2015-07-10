@@ -1,39 +1,40 @@
 package gui.properties;
 
 import java.awt.Color;
+import java.awt.GridLayout;
 
-import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
 
 import music.mediator.SongMediator;
+import music.properties.DrawingOptions;
 
 @SuppressWarnings("serial")
 public class DrawerOptionsPanel extends JPanel {
-	private boolean drawKeys = true;
-	private boolean drawBars = true;
+	private final DrawingOptions options = new DrawingOptions();
 
 	public DrawerOptionsPanel(SongMediator songMediator) {
 		setBackground(Color.WHITE);
+		JPanel optionsPanel = ComponentCreator.createPanel(new GridLayout(3, 1));
 
-		JCheckBox keysChecBox = ComponentFactory.createCheckBox("Draw Keys", e -> {
-			drawKeys = !drawKeys;
+		optionsPanel.add(ComponentCreator.createCheckBox("Draw Keys", e -> {
+			options.toggleDrawKeys();
 			songMediator.repaintView();
-		});
+		}));
 
-		JCheckBox barsCheckBox = ComponentFactory.createCheckBox("Draw Bars", e -> {
-			drawBars = !drawBars;
+		optionsPanel.add(ComponentCreator.createCheckBox("Draw Bars", e -> {
+			options.toggleDrawBars();
 			songMediator.repaintView();
-		});
+		}));
 
-		add(ComponentFactory.createSplitPane(JSplitPane.VERTICAL_SPLIT, keysChecBox, barsCheckBox));
+		optionsPanel.add(ComponentCreator.createCheckBox("Draw Line When Playing", e -> {
+			options.toggleDrawPlayingLine();
+			songMediator.repaintView();
+		}));
+
+		add(optionsPanel);
 	}
 
-	public boolean shouldDrawBars() {
-		return drawBars;
-	}
-
-	public boolean shouldDrawKeys() {
-		return drawKeys;
+	public DrawingOptions getDrawingOptions() {
+		return options;
 	}
 }
