@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import music.mediator.SongMediator;
 
@@ -18,6 +19,7 @@ public class OpenSavePanel extends JPanel {
 		setBackground(Color.WHITE);
 
 		fileChooser = new JFileChooser();
+		fileChooser.setFileFilter(new FileNameExtensionFilter("*.mid", "mid"));
 
 		JButton openButton = ComponentCreator.createButton("Open", e -> {
 			if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
