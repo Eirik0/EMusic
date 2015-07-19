@@ -37,8 +37,8 @@ public class DrawerHelper {
 	public static final Color TEXT_COLOR = Color.BLACK;
 
 	public static final Color[] NOTE_COLORS = new Color[] {
-			Color.RED, SLATE_BLUE, Color.GREEN, Color.MAGENTA, Color.ORANGE, Color.CYAN, CHARTREUSE, KHAKI,
-			DARK_RED, Color.BLUE, DARK_GREEN, DARK_MAGENTA, DARK_ORANGE, DARK_CYAN, SPRING_GREEN, Color.YELLOW };
+		Color.RED, SLATE_BLUE, Color.GREEN, Color.MAGENTA, Color.ORANGE, Color.CYAN, CHARTREUSE, KHAKI,
+		DARK_RED, Color.BLUE, DARK_GREEN, DARK_MAGENTA, DARK_ORANGE, DARK_CYAN, SPRING_GREEN, Color.YELLOW };
 
 	public static void drawBackground(IDrawer drawer, ISongView view, ISongProperties songProperties) {
 		drawer.setComponentSize(view.getWidth(), view.getHeight());
@@ -186,7 +186,7 @@ public class DrawerHelper {
 		int y0 = EMath.round(note.key * noteHeight - offsetY) + 1;
 		int x1 = Math.max(x0 + 1, EMath.round(chordStart + noteDimension.durationInPixels(note.duration) - offsetX));
 		int y1 = Math.max(y0 + 1, EMath.round((note.key + 1) * noteHeight - offsetY));
-		if (y1 - y0 >= 0 && x1 - x0 >= 0) {
+		if (y1 >= 0 && x1 >= 0) {
 			drawer.setColor(isPlaying ? inverse(NOTE_COLORS[voice]) : NOTE_COLORS[voice]);
 			drawer.fillRect(x0, y0, x1 - x0, y1 - y0);
 		}

@@ -118,11 +118,21 @@ public class SongPlayingState implements IMediatorState {
 		public void run() {
 			Duration totalDuration = song.totalDuration();
 			ArrayList<Entry<Duration, Chord>> chordList = song.chordList();
-			if (startPlayer(chordList)) {
+			int i = 0;
+			for (; !stopRequested && i < chordList.size() && chordList.get(i).getKey().compareTo(playerStart) < 0; i++) {
+				// skip notes before the requested start
+			}
+			if (i < chordList.size()) {
+				List<Entry<Duration, Chord>> chords = new ArrayList<>();
+				for (int j = i; !stopRequested && j < chordList.size(); ++j) {
+					chords.add(chordList.get(j));
+				}
+				player.playChords(chords, songProperties);
 				timer.start();
+			} else {
+				return;
 			}
 
-			int i = 0;
 			double pixelsElapsed = getPixelsElapsed();
 			int lastX = Integer.MIN_VALUE;
 
@@ -160,28 +170,10 @@ public class SongPlayingState implements IMediatorState {
 				}
 				lastX = x;
 				try {
-					Thread.sleep(0, 500000);
+					Thread.sleep(15);
 				} catch (InterruptedException e) {
 				}
 			}
-		}
-
-		private boolean startPlayer(ArrayList<Entry<Duration, Chord>> chordList) {
-			int i = 0;
-			for (; !stopRequested && i < chordList.size() && chordList.get(i).getKey().compareTo(playerStart) < 0; i++) {
-				// skip notes before the requested start
-			}
-			if (i < chordList.size()) {
-				List<Entry<Duration, Chord>> chords = new ArrayList<>();
-				for (; !stopRequested && i < chordList.size(); ++i) {
-					chords.add(chordList.get(i));
-				}
-				if (!stopRequested) {
-					player.playChords(chords, songProperties);
-					return true;
-				}
-			}
-			return false;
 		}
 	}
 }

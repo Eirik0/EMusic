@@ -165,10 +165,6 @@ public class SongMediatorTest {
 		assertTrue("D8", drawer.rectangles.contains(new MockRectangle(157, 61, 254, 14, DrawerHelper.NOTE_COLORS[1], true)));
 		assertTrue("E8", drawer.rectangles.contains(new MockRectangle(413, 29, 254, 14, DrawerHelper.NOTE_COLORS[1], true)));
 		assertTrue("F8", drawer.rectangles.contains(new MockRectangle(669, 13, 254, 14, DrawerHelper.NOTE_COLORS[1], true)));
-		assertTrue("G8", drawer.rectangles.contains(new MockRectangle(925, -19, 254, 14, DrawerHelper.NOTE_COLORS[1], true)));
-		assertTrue("A8", drawer.rectangles.contains(new MockRectangle(1181, -51, 254, 14, DrawerHelper.NOTE_COLORS[1], true)));
-		assertTrue("B8", drawer.rectangles.contains(new MockRectangle(1437, -83, 254, 14, DrawerHelper.NOTE_COLORS[1], true)));
-		assertTrue("C9", drawer.rectangles.contains(new MockRectangle(1693, -99, 254, 14, DrawerHelper.NOTE_COLORS[1], true)));
 	}
 
 	// Draw state

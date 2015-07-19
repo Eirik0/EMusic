@@ -36,7 +36,7 @@ public class Duration implements Comparable<Duration> {
 
 	@Override
 	public int compareTo(Duration o) {
-		return (int) (beat * o.division - o.beat * division);
+		return Long.compare(beat * o.division, o.beat * division);
 	}
 
 	@Override
