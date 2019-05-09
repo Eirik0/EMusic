@@ -13,44 +13,44 @@ import music.properties.NoteDimension;
 
 @SuppressWarnings("serial")
 public class NoteDimensionPanel extends JPanel {
-	private final SongMediator songMediator;
+    private final SongMediator songMediator;
 
-	private final NoteDimension noteDimension = new NoteDimension();
+    private final NoteDimension noteDimension = new NoteDimension();
 
-	public NoteDimensionPanel(SongMediator songMediator) {
-		this.songMediator = songMediator;
+    public NoteDimensionPanel(SongMediator songMediator) {
+        this.songMediator = songMediator;
 
-		setLayout(new BorderLayout());
-		setBackground(Color.WHITE);
+        setLayout(new BorderLayout());
+        setBackground(Color.WHITE);
 
-		JButton upButton = createPlusMinusButton("^", () -> noteDimension.setNoteHeight(noteDimension.getNoteHeight() + 0.5));
-		JButton downButton = createPlusMinusButton("v", () -> noteDimension.setNoteHeight(noteDimension.getNoteHeight() - 0.5));
-		JButton rightButton = createPlusMinusButton(">", () -> noteDimension.setSixteenthNoteWidth(noteDimension.getSixteenthNoteWidth() + 0.5));
-		JButton leftButton = createPlusMinusButton("<", () -> noteDimension.setSixteenthNoteWidth(noteDimension.getSixteenthNoteWidth() - 0.5));
+        JButton upButton = createPlusMinusButton("^", () -> noteDimension.setNoteHeight(noteDimension.getNoteHeight() + 0.5));
+        JButton downButton = createPlusMinusButton("v", () -> noteDimension.setNoteHeight(noteDimension.getNoteHeight() - 0.5));
+        JButton rightButton = createPlusMinusButton(">", () -> noteDimension.setSixteenthNoteWidth(noteDimension.getSixteenthNoteWidth() + 0.5));
+        JButton leftButton = createPlusMinusButton("<", () -> noteDimension.setSixteenthNoteWidth(noteDimension.getSixteenthNoteWidth() - 0.5));
 
-		JPanel upPanel = ComponentCreator.createPanel(null);
-		upPanel.add(upButton, BorderLayout.CENTER);
+        JPanel upPanel = ComponentCreator.createPanel(null);
+        upPanel.add(upButton, BorderLayout.CENTER);
 
-		JPanel downPanel = ComponentCreator.createPanel(null);
-		downPanel.add(downButton, BorderLayout.CENTER);
+        JPanel downPanel = ComponentCreator.createPanel(null);
+        downPanel.add(downButton, BorderLayout.CENTER);
 
-		add(new JLabel(" size "), BorderLayout.CENTER);
-		add(upPanel, BorderLayout.NORTH);
-		add(downPanel, BorderLayout.SOUTH);
-		add(rightButton, BorderLayout.EAST);
-		add(leftButton, BorderLayout.WEST);
-	}
+        add(new JLabel(" size "), BorderLayout.CENTER);
+        add(upPanel, BorderLayout.NORTH);
+        add(downPanel, BorderLayout.SOUTH);
+        add(rightButton, BorderLayout.EAST);
+        add(leftButton, BorderLayout.WEST);
+    }
 
-	private JButton createPlusMinusButton(String text, Runnable action) {
-		JButton button = ComponentCreator.createButton(text, e -> {
-			action.run();
-			songMediator.resizeView();
-		});
-		button.setMargin(new Insets(0, 2, 0, 2));
-		return button;
-	}
+    private JButton createPlusMinusButton(String text, Runnable action) {
+        JButton button = ComponentCreator.createButton(text, e -> {
+            action.run();
+            songMediator.resizeView();
+        });
+        button.setMargin(new Insets(0, 2, 0, 2));
+        return button;
+    }
 
-	public NoteDimension getNoteDimension() {
-		return noteDimension;
-	}
+    public NoteDimension getNoteDimension() {
+        return noteDimension;
+    }
 }

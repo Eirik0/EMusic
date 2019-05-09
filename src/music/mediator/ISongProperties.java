@@ -6,25 +6,25 @@ import music.properties.NoteDimension;
 import music.properties.TimeSignature;
 
 public interface ISongProperties {
-	public int getSelectedVoice();
+    public int getSelectedVoice();
 
-	public NoteDimension getNoteDimension();
+    public NoteDimension getNoteDimension();
 
-	public TimeSignature getTimeSignature();
+    public TimeSignature getTimeSignature();
 
-	public void setTimeSignature(TimeSignature timeSignature);
+    public void setTimeSignature(TimeSignature timeSignature);
 
-	public int[] getInstruments();
+    public int[] getInstruments();
 
-	public void setInstruments(int[] instruments);
+    public void setInstruments(int[] instruments);
 
-	public int getTempo();
+    public int getTempo();
 
-	public void setTempo(int tempo);
+    public void setTempo(int tempo);
 
-	public Duration getPlayerStart();
+    public Duration getPlayerStart();
 
-	public void setPlayerStart(Duration start);
+    public void setPlayerStart(Duration start);
 
-	public DrawingOptions getDrawingOptions();
+    public DrawingOptions getDrawingOptions();
 }

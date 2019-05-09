@@ -18,103 +18,103 @@ import music.properties.TimeSignature;
 
 @SuppressWarnings("serial")
 public class SongPropertiesPanel extends JPanel {
-	private static final int DEFAULT_TEMPO = 120;
+    private static final int DEFAULT_TEMPO = 120;
 
-	private final SelectedVoicePanel selectedVoicePanel;
-	private final TimeSignaturePanel timeSignaturePanel;
-	private final NoteDimensionPanel noteDimensionPanel;
-	private final DrawerOptionsPanel drawerOptionsPanel;
+    private final SelectedVoicePanel selectedVoicePanel;
+    private final TimeSignaturePanel timeSignaturePanel;
+    private final NoteDimensionPanel noteDimensionPanel;
+    private final DrawerOptionsPanel drawerOptionsPanel;
 
-	private int tempo = DEFAULT_TEMPO;
+    private int tempo = DEFAULT_TEMPO;
 
-	private final JSlider tempoSlider;
-	private final JLabel tempoValueLabel = new JLabel(String.valueOf(DEFAULT_TEMPO));
+    private final JSlider tempoSlider;
+    private final JLabel tempoValueLabel = new JLabel(String.valueOf(DEFAULT_TEMPO));
 
-	public SongPropertiesPanel(SongMediator songMediator) {
-		setLayout(new FlowLayout(FlowLayout.LEADING));
-		setBackground(Color.WHITE);
+    public SongPropertiesPanel(SongMediator songMediator) {
+        setLayout(new FlowLayout(FlowLayout.LEADING));
+        setBackground(Color.WHITE);
 
-		selectedVoicePanel = new SelectedVoicePanel();
-		timeSignaturePanel = new TimeSignaturePanel(songMediator);
-		noteDimensionPanel = new NoteDimensionPanel(songMediator);
-		drawerOptionsPanel = new DrawerOptionsPanel(songMediator);
+        selectedVoicePanel = new SelectedVoicePanel();
+        timeSignaturePanel = new TimeSignaturePanel(songMediator);
+        noteDimensionPanel = new NoteDimensionPanel(songMediator);
+        drawerOptionsPanel = new DrawerOptionsPanel(songMediator);
 
-		tempoSlider = ComponentCreator.createSlider(JSlider.HORIZONTAL, 10, 300, 30, DEFAULT_TEMPO, value -> {
-			tempo = value;
-			tempoValueLabel.setText(String.valueOf(tempo));
-		});
+        tempoSlider = ComponentCreator.createSlider(JSlider.HORIZONTAL, 10, 300, 30, DEFAULT_TEMPO, value -> {
+            tempo = value;
+            tempoValueLabel.setText(String.valueOf(tempo));
+        });
 
-		add(ComponentCreator.createSplitPane(JSplitPane.VERTICAL_SPLIT, createTopPanel(), createBottomPanel()));
-		add(Box.createHorizontalStrut(20));
-		add(ComponentCreator.createSplitPane(JSplitPane.VERTICAL_SPLIT,
-				ComponentCreator.createButton("Play", e -> songMediator.setState(SongPlayingState.class)),
-				ComponentCreator.createButton("Stop", e -> songMediator.setState(NoteEntryState.class))));
-		add(Box.createHorizontalStrut(20));
-		add(noteDimensionPanel);
-		add(Box.createHorizontalStrut(20));
-		add(new OpenSavePanel(songMediator));
-		add(Box.createHorizontalStrut(20));
-		add(drawerOptionsPanel);
-	}
+        add(ComponentCreator.createSplitPane(JSplitPane.VERTICAL_SPLIT, createTopPanel(), createBottomPanel()));
+        add(Box.createHorizontalStrut(20));
+        add(ComponentCreator.createSplitPane(JSplitPane.VERTICAL_SPLIT,
+                ComponentCreator.createButton("Play", e -> songMediator.setState(SongPlayingState.class)),
+                ComponentCreator.createButton("Stop", e -> songMediator.setState(NoteEntryState.class))));
+        add(Box.createHorizontalStrut(20));
+        add(noteDimensionPanel);
+        add(Box.createHorizontalStrut(20));
+        add(new OpenSavePanel(songMediator));
+        add(Box.createHorizontalStrut(20));
+        add(drawerOptionsPanel);
+    }
 
-	private JPanel createTopPanel() {
-		JPanel topPanel = ComponentCreator.createPanel(new FlowLayout(FlowLayout.LEADING));
+    private JPanel createTopPanel() {
+        JPanel topPanel = ComponentCreator.createPanel(new FlowLayout(FlowLayout.LEADING));
 
-		topPanel.add(new JLabel("Instrument: "));
-		topPanel.add(selectedVoicePanel.instrumentComboBox);
-		topPanel.add(Box.createHorizontalStrut(36));
-		topPanel.add(new JLabel("Tempo: "));
-		topPanel.add(tempoSlider);
-		topPanel.add(tempoValueLabel);
+        topPanel.add(new JLabel("Instrument: "));
+        topPanel.add(selectedVoicePanel.instrumentComboBox);
+        topPanel.add(Box.createHorizontalStrut(36));
+        topPanel.add(new JLabel("Tempo: "));
+        topPanel.add(tempoSlider);
+        topPanel.add(tempoValueLabel);
 
-		return topPanel;
-	}
+        return topPanel;
+    }
 
-	private JPanel createBottomPanel() {
-		JPanel bottomPanel = ComponentCreator.createPanel(new FlowLayout(FlowLayout.LEADING));
+    private JPanel createBottomPanel() {
+        JPanel bottomPanel = ComponentCreator.createPanel(new FlowLayout(FlowLayout.LEADING));
 
-		bottomPanel.add(selectedVoicePanel);
-		bottomPanel.add(Box.createHorizontalStrut(12));
-		bottomPanel.add(timeSignaturePanel);
+        bottomPanel.add(selectedVoicePanel);
+        bottomPanel.add(Box.createHorizontalStrut(12));
+        bottomPanel.add(timeSignaturePanel);
 
-		return bottomPanel;
-	}
+        return bottomPanel;
+    }
 
-	// get/set properties
-	public int getSelectedVoice() {
-		return selectedVoicePanel.getSelectedVoice();
-	}
+    // get/set properties
+    public int getSelectedVoice() {
+        return selectedVoicePanel.getSelectedVoice();
+    }
 
-	public NoteDimension getNoteDimension() {
-		return noteDimensionPanel.getNoteDimension();
-	}
+    public NoteDimension getNoteDimension() {
+        return noteDimensionPanel.getNoteDimension();
+    }
 
-	public TimeSignature getTimeSignature() {
-		return timeSignaturePanel.getTimeSignature();
-	}
+    public TimeSignature getTimeSignature() {
+        return timeSignaturePanel.getTimeSignature();
+    }
 
-	public void setTimeSignature(TimeSignature timeSignature) {
-		timeSignaturePanel.setTimeSignature(timeSignature);
-	}
+    public void setTimeSignature(TimeSignature timeSignature) {
+        timeSignaturePanel.setTimeSignature(timeSignature);
+    }
 
-	public int[] getInstruments() {
-		return selectedVoicePanel.getInstruments();
-	}
+    public int[] getInstruments() {
+        return selectedVoicePanel.getInstruments();
+    }
 
-	public void setInstruments(int[] instruments) {
-		selectedVoicePanel.setInstruments(instruments);
-	}
+    public void setInstruments(int[] instruments) {
+        selectedVoicePanel.setInstruments(instruments);
+    }
 
-	public int getTempo() {
-		return tempo;
-	}
+    public int getTempo() {
+        return tempo;
+    }
 
-	public void setTempo(int tempo) {
-		this.tempo = tempo;
-		tempoSlider.setValue(tempo);
-	}
+    public void setTempo(int tempo) {
+        this.tempo = tempo;
+        tempoSlider.setValue(tempo);
+    }
 
-	public DrawingOptions getDrawingOptions() {
-		return drawerOptionsPanel.getDrawingOptions();
-	}
+    public DrawingOptions getDrawingOptions() {
+        return drawerOptionsPanel.getDrawingOptions();
+    }
 }

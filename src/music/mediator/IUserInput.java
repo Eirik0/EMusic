@@ -1,9 +1,9 @@
 package music.mediator;
 
 public interface IUserInput {
-	public boolean isMouseEntered();
+    public boolean isMouseEntered();
 
-	public int getMouseX();
+    public int getMouseX();
 
-	public int getMouseY();
+    public int getMouseY();
 }

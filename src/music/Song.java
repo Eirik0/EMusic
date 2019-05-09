@@ -7,45 +7,45 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 public class Song {
-	private final TreeMap<Duration, Chord> chords;
+    private final TreeMap<Duration, Chord> chords;
 
-	public Song() {
-		chords = new TreeMap<>();
-	}
+    public Song() {
+        chords = new TreeMap<>();
+    }
 
-	public Chord addNote(Duration noteStart, Note note, int voice) {
-		Chord chord = chords.get(noteStart);
-		if (chord == null) {
-			chord = new Chord(note, voice);
-			chords.put(noteStart, chord);
-		} else {
-			chord.addNote(note, voice);
-		}
-		return chord;
-	}
+    public Chord addNote(Duration noteStart, Note note, int voice) {
+        Chord chord = chords.get(noteStart);
+        if (chord == null) {
+            chord = new Chord(note, voice);
+            chords.put(noteStart, chord);
+        } else {
+            chord.addNote(note, voice);
+        }
+        return chord;
+    }
 
-	public Chord getChord(Duration noteStart) {
-		return chords.get(noteStart);
-	}
+    public Chord getChord(Duration noteStart) {
+        return chords.get(noteStart);
+    }
 
-	public Duration totalDuration() {
-		Duration maxDuration = Duration.ZERO;
-		for (Map.Entry<Duration, Chord> chordEntry : chords.entrySet()) {
-			Duration noteStart = chordEntry.getKey();
-			Duration chordDuration = chordEntry.getValue().totalDuration();
-			Duration duration = noteStart.add(chordDuration);
-			if (duration.compareTo(maxDuration) > 0) {
-				maxDuration = duration;
-			}
-		}
-		return maxDuration;
-	}
+    public Duration totalDuration() {
+        Duration maxDuration = Duration.ZERO;
+        for (Map.Entry<Duration, Chord> chordEntry : chords.entrySet()) {
+            Duration noteStart = chordEntry.getKey();
+            Duration chordDuration = chordEntry.getValue().totalDuration();
+            Duration duration = noteStart.add(chordDuration);
+            if (duration.compareTo(maxDuration) > 0) {
+                maxDuration = duration;
+            }
+        }
+        return maxDuration;
+    }
 
-	public Iterator<Entry<Duration, Chord>> getEntryIterator() {
-		return chords.entrySet().iterator();
-	}
+    public Iterator<Entry<Duration, Chord>> getEntryIterator() {
+        return chords.entrySet().iterator();
+    }
 
-	public ArrayList<Map.Entry<Duration, Chord>> chordList() {
-		return new ArrayList<Map.Entry<Duration, Chord>>(chords.entrySet());
-	}
+    public ArrayList<Map.Entry<Duration, Chord>> chordList() {
+        return new ArrayList<Map.Entry<Duration, Chord>>(chords.entrySet());
+    }
 }

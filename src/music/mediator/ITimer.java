@@ -1,9 +1,9 @@
 package music.mediator;
 
 public interface ITimer {
-	public void start();
+    public void start();
 
-	public long getTimeElapsed();
+    public long getTimeElapsed();
 
-	public void stop();
+    public void stop();
 }

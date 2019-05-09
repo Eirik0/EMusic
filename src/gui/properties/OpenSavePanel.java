@@ -13,28 +13,28 @@ import music.mediator.SongMediator;
 
 @SuppressWarnings("serial")
 public class OpenSavePanel extends JPanel {
-	private final JFileChooser fileChooser;
+    private final JFileChooser fileChooser;
 
-	public OpenSavePanel(SongMediator songMediator) {
-		setBackground(Color.WHITE);
+    public OpenSavePanel(SongMediator songMediator) {
+        setBackground(Color.WHITE);
 
-		fileChooser = new JFileChooser();
-		fileChooser.setFileFilter(new FileNameExtensionFilter("*.mid", "mid"));
+        fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("*.mid", "mid"));
 
-		JButton openButton = ComponentCreator.createButton("Open", e -> {
-			if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-				File selectedFile = fileChooser.getSelectedFile();
-				songMediator.loadSongFromFile(selectedFile);
-			}
-		});
+        JButton openButton = ComponentCreator.createButton("Open", e -> {
+            if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                songMediator.loadSongFromFile(selectedFile);
+            }
+        });
 
-		JButton saveButton = ComponentCreator.createButton("Save", e -> {
-			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-				File selectedFile = fileChooser.getSelectedFile();
-				songMediator.saveSongToFile(selectedFile);
-			}
-		});
+        JButton saveButton = ComponentCreator.createButton("Save", e -> {
+            if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                songMediator.saveSongToFile(selectedFile);
+            }
+        });
 
-		add(ComponentCreator.createSplitPane(JSplitPane.VERTICAL_SPLIT, openButton, saveButton));
-	}
+        add(ComponentCreator.createSplitPane(JSplitPane.VERTICAL_SPLIT, openButton, saveButton));
+    }
 }
