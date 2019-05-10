@@ -27,7 +27,7 @@ public class NoteContainer implements Cloneable {
 
     public void addNote(Note note) {
         if (additionalNotes.isEmpty()) {
-            additionalNotes = new ArrayList<Note>();
+            additionalNotes = new ArrayList<>();
         }
         additionalNotes.add(note);
     }

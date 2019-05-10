@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
+import org.junit.Test;
+
 import jm.constants.Durations;
 import jm.constants.Pitches;
 import jm.music.data.Part;
@@ -17,8 +19,6 @@ import music.Song;
 import music.TestMusicCreator;
 import music.mediator.TestSongProperties;
 import music.properties.TimeSignature;
-
-import org.junit.Test;
 
 public class JMusicPlayerTest {
     @Test
@@ -138,11 +138,11 @@ public class JMusicPlayerTest {
         assertEquals(JMusicPlayer.convertDuration(getDuration(chordList, 1, 3)), note9.getRhythmValue(), 0.000001);
     }
 
-    private int getKey(ArrayList<Entry<Duration, Chord>> chordList, int chord, int note) {
+    private static int getKey(ArrayList<Entry<Duration, Chord>> chordList, int chord, int note) {
         return chordList.get(chord).getValue().getNotes()[note].getNote().key;
     }
 
-    private Duration getDuration(ArrayList<Entry<Duration, Chord>> chordList, int chord, int note) {
+    private static Duration getDuration(ArrayList<Entry<Duration, Chord>> chordList, int chord, int note) {
         return chordList.get(chord).getValue().getNotes()[note].getNote().duration;
     }
 
@@ -212,7 +212,7 @@ public class JMusicPlayerTest {
 
     }
 
-    private Score createTestScore() {
+    private static Score createTestScore() {
         Score score = new Score();
         score.setNumerator(5);
         score.setDenominator(4);
@@ -225,7 +225,7 @@ public class JMusicPlayerTest {
         return score;
     }
 
-    private Part createPart1() {
+    private static Part createPart1() {
         Part part = new Part(1);
         Phrase phrase1 = new Phrase();
         phrase1.addNote(JMusicPlayer.convertPitch(Note.C9), 3);
@@ -239,7 +239,7 @@ public class JMusicPlayerTest {
         return part;
     }
 
-    private Part createPart2() {
+    private static Part createPart2() {
         Part part = new Part(2);
         Phrase phrase = new Phrase(6.0);
         phrase.addNote(JMusicPlayer.convertPitch(Note.C9), 1);
@@ -247,21 +247,21 @@ public class JMusicPlayerTest {
         return part;
     }
 
-    private Part createPart3() {
+    private static Part createPart3() {
         Part part = new Part(3);
         part.addNote(JMusicPlayer.convertNote(new Note(Note.A8, Duration.QUARTER_BEAT)), 5.0);
         part.addNote(JMusicPlayer.convertNote(new Note(Note.A8, Duration.QUARTER_BEAT)), 7.0);
         return part;
     }
 
-    private Part createPart4() {
+    private static Part createPart4() {
         Part part = new Part(4);
         part.addNote(JMusicPlayer.convertNote(new Note(Note.F8, Duration.QUARTER_BEAT)), 5.0);
         part.addNote(JMusicPlayer.convertNote(new Note(Note.F8, Duration.QUARTER_BEAT)), 7.0);
         return part;
     }
 
-    private Part createPart5() {
+    private static Part createPart5() {
         Part part = new Part(5);
         part.addNote(JMusicPlayer.convertNote(new Note(Note.D8, Duration.QUARTER_BEAT)), 6.0);
         return part;

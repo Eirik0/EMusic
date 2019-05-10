@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -48,8 +49,8 @@ public class ComponentCreator {
         return panel;
     }
 
-    public static JSlider createSlider(int orientation, int minimum, int maximum, int spacing, int defaultValue, Consumer<Integer> consumer) {
-        JSlider slider = new JSlider(JSlider.HORIZONTAL);
+    public static JSlider createSlider(int orientation, int minimum, int maximum, int spacing, int defaultValue, IntConsumer consumer) {
+        JSlider slider = new JSlider(orientation);
         slider.setBackground(Color.WHITE);
         slider.setMinimum(minimum);
         slider.setMaximum(maximum);

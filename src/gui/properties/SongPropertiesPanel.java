@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JSplitPane;
+import javax.swing.SwingConstants;
 
 import music.mediator.SongMediator;
 import music.mediator.state.NoteEntryState;
@@ -39,7 +40,7 @@ public class SongPropertiesPanel extends JPanel {
         noteDimensionPanel = new NoteDimensionPanel(songMediator);
         drawerOptionsPanel = new DrawerOptionsPanel(songMediator);
 
-        tempoSlider = ComponentCreator.createSlider(JSlider.HORIZONTAL, 10, 300, 30, DEFAULT_TEMPO, value -> {
+        tempoSlider = ComponentCreator.createSlider(SwingConstants.HORIZONTAL, 10, 300, 30, DEFAULT_TEMPO, value -> {
             tempo = value;
             tempoValueLabel.setText(String.valueOf(tempo));
         });

@@ -128,8 +128,8 @@ public class EMusic {
         });
         backToStartButton.setMargin(new Insets(0, 2, 0, 2));
         cornerPanel.add(backToStartButton);
-        scrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER, cornerPanel);
-        scrollPane.setCorner(JScrollPane.UPPER_RIGHT_CORNER, ComponentCreator.createPanel(null));
+        scrollPane.setCorner(ScrollPaneConstants.UPPER_LEFT_CORNER, cornerPanel);
+        scrollPane.setCorner(ScrollPaneConstants.UPPER_RIGHT_CORNER, ComponentCreator.createPanel(null));
     }
 
     private static void setupViewport(JViewport viewport, SongMediator songMediator, SongScrollablePanel songPanel, SongMouseAdapter songMouseAdapter) {

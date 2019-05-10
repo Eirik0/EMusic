@@ -46,6 +46,6 @@ public class Song {
     }
 
     public ArrayList<Map.Entry<Duration, Chord>> chordList() {
-        return new ArrayList<Map.Entry<Duration, Chord>>(chords.entrySet());
+        return new ArrayList<>(chords.entrySet());
     }
 }

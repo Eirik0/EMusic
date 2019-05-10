@@ -15,7 +15,7 @@ public class PositionedNote {
 
     @Override
     public int hashCode() {
-        return Objects.hash(note, chordStart, voice);
+        return Objects.hash(note, chordStart, Integer.valueOf(voice));
     }
 
     @Override

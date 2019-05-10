@@ -1,10 +1,9 @@
 package music.mediator.state;
 
-import gui.mouse.SongMouseAdapter;
-
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import gui.mouse.SongMouseAdapter;
 import music.Chord;
 import music.Duration;
 import music.Note;
@@ -138,7 +137,7 @@ public class NoteEntryState implements IMediatorState {
         }
     }
 
-    private boolean shouldRemove(Note note, NoteDimension noteDimension, double noteHeight, double chordStart, int mouseX, int mouseY) {
+    private static boolean shouldRemove(Note note, NoteDimension noteDimension, double noteHeight, double chordStart, int mouseX, int mouseY) {
         int x0 = EMath.round(chordStart);
         int y0 = EMath.round(note.key * noteHeight);
         int x1 = EMath.round(chordStart + noteDimension.durationInPixels(note.duration));
