@@ -1,13 +1,12 @@
 package emu.jmusic;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import emu.jmusic.JMusicPlayer;
 import emu.music.Chord;
 import emu.music.Duration;
 import emu.music.Note;

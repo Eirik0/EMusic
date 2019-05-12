@@ -1,9 +1,9 @@
 package emu.music.mediator.state;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import emu.music.Song;
 import emu.music.TestMusicCreator;
@@ -17,7 +17,6 @@ import emu.music.mediator.TestView;
 import emu.music.mediator.drawer.MockLine;
 import emu.music.mediator.drawer.MockRectangle;
 import emu.music.mediator.drawer.TestDrawer;
-import emu.music.mediator.state.SongPlayingState;
 
 public class SongPlayingStateTest {
     @Test
@@ -94,7 +93,7 @@ public class SongPlayingStateTest {
         Thread.sleep(50);
         mediator.drawState();
         MockLine expected = new MockLine(32, 0, 32, TestMediatorCreator.DEFAULT_HEIGHT, DrawerHelper.PLAYER_BAR_COLOR);
-        assertTrue(drawer.lines.get(0).toString(), drawer.lines.contains(expected));
+        assertTrue(drawer.lines.contains(expected), drawer.lines.get(0).toString());
         assertEquals(128, view.getX0());
     }
 
@@ -112,7 +111,7 @@ public class SongPlayingStateTest {
         Thread.sleep(50);
         mediator.drawState();
         MockLine expected = new MockLine(0, 0, 0, TestMediatorCreator.DEFAULT_HEIGHT, DrawerHelper.PLAYER_BAR_COLOR);
-        assertTrue(drawer.lines.get(0).toString(), drawer.lines.contains(expected));
+        assertTrue(drawer.lines.contains(expected), drawer.lines.get(0).toString());
         assertEquals(96, view.getX0());
     }
 
@@ -130,7 +129,7 @@ public class SongPlayingStateTest {
         Thread.sleep(50);
         mediator.drawState();
         MockLine expected = new MockLine(64, 0, 64, TestMediatorCreator.DEFAULT_HEIGHT, DrawerHelper.PLAYER_BAR_COLOR);
-        assertTrue(drawer.lines.get(0).toString(), drawer.lines.contains(expected));
+        assertTrue(drawer.lines.contains(expected), drawer.lines.get(0).toString());
         assertEquals(192, view.getX0());
     }
 
@@ -147,6 +146,6 @@ public class SongPlayingStateTest {
         timer.timeElapsed = 10000; // 640 pixels
         Thread.sleep(50);
         mediator.drawState();
-        assertTrue("E8", drawer.rectangles.contains(new MockRectangle(513, 129, 254, 14, DrawerHelper.inverse(DrawerHelper.NOTE_COLORS[0]), true)));
+        assertTrue(drawer.rectangles.contains(new MockRectangle(513, 129, 254, 14, DrawerHelper.inverse(DrawerHelper.NOTE_COLORS[0]), true)), "E8");
     }
 }

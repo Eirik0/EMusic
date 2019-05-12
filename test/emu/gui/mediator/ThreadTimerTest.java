@@ -1,11 +1,9 @@
 package emu.gui.mediator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
-
-import emu.gui.mediator.ThreadTimer;
+import org.junit.jupiter.api.Test;
 
 public class ThreadTimerTest {
     private static final int SLEEP_TIME = 50;
@@ -28,6 +26,6 @@ public class ThreadTimerTest {
         Thread.sleep(SLEEP_TIME);
         long timeElapsed = timer.getTimeElapsed();
         timer.stop();
-        assertTrue(String.valueOf(timeElapsed), timeElapsed > 0);
+        assertTrue(timeElapsed > 0, String.valueOf(timeElapsed));
     }
 }

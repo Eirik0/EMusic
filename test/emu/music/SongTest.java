@@ -1,16 +1,11 @@
 package emu.music;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Test;
-
-import emu.music.Chord;
-import emu.music.Duration;
-import emu.music.Note;
-import emu.music.Song;
+import org.junit.jupiter.api.Test;
 
 public class SongTest {
     @Test

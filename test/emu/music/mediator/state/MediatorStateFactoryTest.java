@@ -1,14 +1,12 @@
 package emu.music.mediator.state;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import emu.music.Song;
 import emu.music.mediator.ISongProperties;
 import emu.music.mediator.TestSongProperties;
-import emu.music.mediator.state.IMediatorState;
-import emu.music.mediator.state.MediatorStateFactory;
 
 public class MediatorStateFactoryTest {
     @Test
