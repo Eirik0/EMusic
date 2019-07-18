@@ -4,28 +4,28 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import emu.music.Song;
-import emu.music.mediator.ISongProperties;
-import emu.music.mediator.TestSongProperties;
+import emu.music.Composition;
+import emu.music.mediator.ICompositionProperties;
+import emu.music.mediator.TestCompositionProperties;
 
 public class MediatorStateFactoryTest {
     @Test
     public void testNewInstance() {
-        TestSongProperties testSongProperties = new TestSongProperties();
-        MediatorStateFactory.updateReferences(testSongProperties);
+        TestCompositionProperties testCompositionProperties = new TestCompositionProperties();
+        MediatorStateFactory.updateReferences(testCompositionProperties);
         TestNoOpPropertiesState state = MediatorStateFactory.newInstance(TestNoOpPropertiesState.class);
-        assertEquals(testSongProperties, state.properties);
+        assertEquals(testCompositionProperties, state.properties);
     }
 
     public static class TestNoOpPropertiesState implements IMediatorState {
-        public final ISongProperties properties;
+        public final ICompositionProperties properties;
 
-        public TestNoOpPropertiesState(ISongProperties properties) {
+        public TestNoOpPropertiesState(ICompositionProperties properties) {
             this.properties = properties;
         }
 
         @Override
-        public void setSong(Song song) {
+        public void setComposition(Composition composition) {
         }
 
         @Override

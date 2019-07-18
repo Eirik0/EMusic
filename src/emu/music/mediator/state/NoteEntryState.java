@@ -3,67 +3,67 @@ package emu.music.mediator.state;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-import emu.gui.mouse.SongMouseAdapter;
+import emu.gui.mouse.CompositionMouseAdapter;
 import emu.music.Chord;
 import emu.music.Duration;
 import emu.music.Note;
 import emu.music.NoteContainer;
-import emu.music.Song;
+import emu.music.Composition;
 import emu.music.mediator.DrawerHelper;
 import emu.music.mediator.IDrawer;
-import emu.music.mediator.ISongPlayer;
-import emu.music.mediator.ISongProperties;
-import emu.music.mediator.ISongView;
+import emu.music.mediator.ICompositionPlayer;
+import emu.music.mediator.ICompositionProperties;
+import emu.music.mediator.ICompositionView;
 import emu.music.mediator.IUserInput;
 import emu.music.properties.NoteDimension;
 import emu.util.EMath;
 
 public class NoteEntryState implements IMediatorState {
-    private final ISongView view;
+    private final ICompositionView view;
     private final IDrawer drawer;
-    private final ISongPlayer player;
+    private final ICompositionPlayer player;
 
-    private final ISongProperties songProperties;
+    private final ICompositionProperties compositionProperties;
     private final IUserInput userInput;
 
-    private Song song;
+    private Composition composition;
 
     private int clickStartX;
     private int clickStartY;
     private boolean isAddingNote;
 
-    public NoteEntryState(ISongView view, IDrawer drawer, ISongPlayer player, ISongProperties songProperties, IUserInput userInput) {
+    public NoteEntryState(ICompositionView view, IDrawer drawer, ICompositionPlayer player, ICompositionProperties compositionProperties, IUserInput userInput) {
         this.view = view;
         this.drawer = drawer;
         this.player = player;
-        this.songProperties = songProperties;
+        this.compositionProperties = compositionProperties;
         this.userInput = userInput;
     }
 
     @Override
-    public void setSong(Song song) {
-        this.song = song;
+    public void setComposition(Composition composition) {
+        this.composition = composition;
     }
 
     @Override
     public void mousePressed(int button) {
-        if (button == SongMouseAdapter.LEFT_CLICK) {
+        if (button == CompositionMouseAdapter.LEFT_CLICK) {
             clickStartX = view.getX0() + userInput.getMouseX();
             clickStartY = view.getY0() + userInput.getMouseY();
             isAddingNote = true;
 
-            int key = (int) (clickStartY / songProperties.getNoteDimension().getNoteHeight());
-            Note note = new Note(key, songProperties.getTimeSignature().getCalculatedDivision());
+            int key = (int) (clickStartY / compositionProperties.getNoteDimension().getNoteHeight());
+            Note note = new Note(key, compositionProperties.getTimeSignature().getCalculatedDivision());
 
-            Chord chord = song.getChord(durationStart(clickStartX));
+            Chord chord = composition.getChord(durationStart(clickStartX));
             if (chord == null) {
-                chord = new Chord(note, songProperties.getSelectedVoice());
+                chord = new Chord(note, compositionProperties.getSelectedVoice());
             } else {
                 chord = chord.clone();
-                chord.addNote(note, songProperties.getSelectedVoice());
+                chord.addNote(note, compositionProperties.getSelectedVoice());
             }
-            player.playChord(chord, songProperties);
-        } else if (button == SongMouseAdapter.RIGHT_CLICK) {
+            player.playChord(chord, compositionProperties);
+        } else if (button == CompositionMouseAdapter.RIGHT_CLICK) {
             removeNote();
         }
     }
@@ -73,7 +73,7 @@ public class NoteEntryState implements IMediatorState {
         if (isAddingNote) {
             Duration noteStart = durationStart(clickStartX);
             Note note = createNote(noteStart, true);
-            song.addNote(noteStart, note, songProperties.getSelectedVoice());
+            composition.addNote(noteStart, note, compositionProperties.getSelectedVoice());
             isAddingNote = false;
         }
     }
@@ -83,18 +83,18 @@ public class NoteEntryState implements IMediatorState {
 
         Duration noteEnd = durationStart(clickEndX);
 
-        Duration minDuration = songProperties.getTimeSignature().getCalculatedDivision();
+        Duration minDuration = compositionProperties.getTimeSignature().getCalculatedDivision();
         Duration noteDuration = adding ? Duration.max(minDuration, noteEnd.subtract(noteStart).add(minDuration)) : minDuration;
         int noteY = adding ? clickStartY : view.getY0() + userInput.getMouseY();
-        int key = (int) (noteY / songProperties.getNoteDimension().getNoteHeight());
+        int key = (int) (noteY / compositionProperties.getNoteDimension().getNoteHeight());
 
         Note note = new Note(key, noteDuration);
         return note;
     }
 
     private Duration durationStart(int mouseX) {
-        Duration minDuration = songProperties.getTimeSignature().getCalculatedDivision();
-        double durationInPixels = songProperties.getNoteDimension().durationInPixels(minDuration);
+        Duration minDuration = compositionProperties.getTimeSignature().getCalculatedDivision();
+        double durationInPixels = compositionProperties.getNoteDimension().durationInPixels(minDuration);
 
         return new Duration((int) (mouseX / durationInPixels) * minDuration.beat, minDuration.division);
     }
@@ -102,9 +102,9 @@ public class NoteEntryState implements IMediatorState {
     private void removeNote() {
         int mouseX = view.getX0() + userInput.getMouseX();
         int mouseY = view.getY0() + userInput.getMouseY();
-        NoteDimension noteDimension = songProperties.getNoteDimension();
+        NoteDimension noteDimension = compositionProperties.getNoteDimension();
         double noteHeight = noteDimension.getNoteHeight();
-        Iterator<Entry<Duration, Chord>> entryIterator = song.getEntryIterator();
+        Iterator<Entry<Duration, Chord>> entryIterator = composition.getEntryIterator();
         while (entryIterator.hasNext()) {
             Entry<Duration, Chord> durationChord = entryIterator.next();
             double chordStart = noteDimension.durationInPixels(durationChord.getKey());
@@ -150,13 +150,13 @@ public class NoteEntryState implements IMediatorState {
         if (isAddingNote) {
             Duration noteStartDuration = durationStart(clickStartX);
             Note note = createNote(noteStartDuration, true);
-            double noteStartX = songProperties.getNoteDimension().durationInPixels(noteStartDuration);
-            DrawerHelper.drawNote(drawer, view, songProperties.getNoteDimension(), note, noteStartX, songProperties.getSelectedVoice(), false);
+            double noteStartX = compositionProperties.getNoteDimension().durationInPixels(noteStartDuration);
+            DrawerHelper.drawNote(drawer, view, compositionProperties.getNoteDimension(), note, noteStartX, compositionProperties.getSelectedVoice(), false);
         } else if (userInput.isMouseEntered()) {
             Duration noteStartDuration = durationStart(view.getX0() + userInput.getMouseX());
             Note note = createNote(noteStartDuration, false);
-            double noteStartX = songProperties.getNoteDimension().durationInPixels(noteStartDuration);
-            DrawerHelper.drawNote(drawer, view, songProperties.getNoteDimension(), note, noteStartX, songProperties.getSelectedVoice(), false);
+            double noteStartX = compositionProperties.getNoteDimension().durationInPixels(noteStartDuration);
+            DrawerHelper.drawNote(drawer, view, compositionProperties.getNoteDimension(), note, noteStartX, compositionProperties.getSelectedVoice(), false);
         }
     }
 

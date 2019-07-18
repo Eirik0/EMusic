@@ -1,6 +1,6 @@
 package emu.music.mediator;
 
-public interface ISongView {
+public interface ICompositionView {
     public int getX0();
 
     public int getY0();

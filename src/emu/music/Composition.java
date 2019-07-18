@@ -6,10 +6,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-public class Song {
+public class Composition {
     private final TreeMap<Duration, Chord> chords;
 
-    public Song() {
+    public Composition() {
         chords = new TreeMap<>();
     }
 

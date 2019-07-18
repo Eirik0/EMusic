@@ -1,18 +1,18 @@
 package emu.gui.mediator;
 
 import emu.gui.TimeSignatureColumnHeader;
-import emu.gui.properties.SongPropertiesPanel;
+import emu.gui.properties.CompositionPropertiesPanel;
 import emu.music.Duration;
-import emu.music.mediator.ISongProperties;
+import emu.music.mediator.ICompositionProperties;
 import emu.music.properties.DrawingOptions;
 import emu.music.properties.NoteDimension;
 import emu.music.properties.TimeSignature;
 
-public class ViewSongProperties implements ISongProperties {
-    private final SongPropertiesPanel propertiesPanel;
+public class ViewCompositionProperties implements ICompositionProperties {
+    private final CompositionPropertiesPanel propertiesPanel;
     private final TimeSignatureColumnHeader timeSignatureHeader;
 
-    public ViewSongProperties(SongPropertiesPanel propertiesPanel, TimeSignatureColumnHeader header) {
+    public ViewCompositionProperties(CompositionPropertiesPanel propertiesPanel, TimeSignatureColumnHeader header) {
         this.propertiesPanel = propertiesPanel;
         timeSignatureHeader = header;
     }

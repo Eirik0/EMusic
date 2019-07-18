@@ -1,20 +1,20 @@
 package emu.gui.mouse;
 
 import emu.gui.TimeSignatureColumnHeader;
-import emu.music.mediator.SongMediator;
+import emu.music.mediator.CompositionMediator;
 
 public class HeaderMouseController implements IMouseController {
-    private final SongMediator songMediator;
+    private final CompositionMediator compositionMediator;
     private final TimeSignatureColumnHeader header;
 
-    public HeaderMouseController(SongMediator songMediator, TimeSignatureColumnHeader timeSignatureColumnHeader) {
-        this.songMediator = songMediator;
+    public HeaderMouseController(CompositionMediator compositionMediator, TimeSignatureColumnHeader timeSignatureColumnHeader) {
+        this.compositionMediator = compositionMediator;
         header = timeSignatureColumnHeader;
     }
 
     @Override
     public void onMousePressed(int button) {
-        songMediator.setPlayerStartFromHeader(false);
+        compositionMediator.setPlayerStartFromHeader(false);
     }
 
     @Override

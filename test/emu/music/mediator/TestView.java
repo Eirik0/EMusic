@@ -1,8 +1,8 @@
 package emu.music.mediator;
 
-import emu.music.mediator.ISongView;
+import emu.music.mediator.ICompositionView;
 
-public class TestView implements ISongView {
+public class TestView implements ICompositionView {
     public int x0;
     public int y0;
     public int width;

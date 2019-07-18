@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 import emu.music.Chord;
 import emu.music.Duration;
 import emu.music.Note;
-import emu.music.Song;
+import emu.music.Composition;
 import emu.music.TestMusicCreator;
-import emu.music.mediator.TestSongProperties;
+import emu.music.mediator.TestCompositionProperties;
 import emu.music.properties.TimeSignature;
 import jm.constants.Durations;
 import jm.constants.Pitches;
@@ -51,7 +51,7 @@ public class JMusicPlayerTest {
 
     @Test
     public void testCreateScore() {
-        TestSongProperties testProperties = new TestSongProperties();
+        TestCompositionProperties testProperties = new TestCompositionProperties();
         testProperties.setTempo(123);
         testProperties.getTimeSignature().setMeter(2, 6);
         Score score = JMusicPlayer.createScore(testProperties.getTimeSignature().getMeter(), testProperties.getTempo());
@@ -63,7 +63,7 @@ public class JMusicPlayerTest {
     @Test
     public void testConvertChord() {
         Chord chord = TestMusicCreator.newChord();
-        TestSongProperties testProperties = new TestSongProperties();
+        TestCompositionProperties testProperties = new TestCompositionProperties();
         testProperties.getInstruments()[0] = 5;
         Score score = JMusicPlayer.convertChord(chord, testProperties);
         assertEquals(1, score.getPartArray().length);
@@ -78,14 +78,14 @@ public class JMusicPlayerTest {
     }
 
     @Test
-    public void testConvertSong() {
-        Song song = TestMusicCreator.newWholeNoteScale(0);
-        song.addNote(Duration.WHOLE_BEAT, new Note(Note.C4, Duration.WHOLE_BEAT), 3);
-        TestSongProperties testProperties = new TestSongProperties();
+    public void testConvertComposition() {
+        Composition composition = TestMusicCreator.newWholeNoteScale(0);
+        composition.addNote(Duration.WHOLE_BEAT, new Note(Note.C4, Duration.WHOLE_BEAT), 3);
+        TestCompositionProperties testProperties = new TestCompositionProperties();
         testProperties.getInstruments()[0] = 5;
         testProperties.getInstruments()[3] = 3;
 
-        Score score = JMusicPlayer.convertChords(song.chordList(), testProperties, false);
+        Score score = JMusicPlayer.convertChords(composition.chordList(), testProperties, false);
         assertEquals(4, score.getPartArray().length);
 
         Part part1 = score.getPart(0);
@@ -114,7 +114,7 @@ public class JMusicPlayerTest {
         jm.music.data.Note note7 = part1.getPhrase(6).getNote(0);
         jm.music.data.Note note8 = part1.getPhrase(7).getNote(0);
 
-        ArrayList<Entry<Duration, Chord>> chordList = song.chordList();
+        ArrayList<Entry<Duration, Chord>> chordList = composition.chordList();
         assertEquals(JMusicPlayer.convertPitch(getKey(chordList, 0, 0)), note1.getPitch());
         assertEquals(JMusicPlayer.convertPitch(getKey(chordList, 1, 0)), note2.getPitch());
         assertEquals(JMusicPlayer.convertPitch(getKey(chordList, 2, 0)), note3.getPitch());
@@ -148,7 +148,7 @@ public class JMusicPlayerTest {
 
     @Test
     public void testConvertScore_UpdateProperties() {
-        TestSongProperties testProperties = new TestSongProperties();
+        TestCompositionProperties testProperties = new TestCompositionProperties();
         testProperties.setInstruments(new int[] { 19, 17, 13, 11, 7, 5, 3, 2 });
         testProperties.setTempo(23);
         TimeSignature timeSignature = new TimeSignature(31, 29);
@@ -171,11 +171,11 @@ public class JMusicPlayerTest {
 
     @Test
     public void testConvertScore() {
-        TestSongProperties testProperties = new TestSongProperties();
+        TestCompositionProperties testProperties = new TestCompositionProperties();
         Score score = createTestScore();
-        Song song = JMusicPlayer.convertScore(score, testProperties);
+        Composition composition = JMusicPlayer.convertScore(score, testProperties);
 
-        ArrayList<Entry<Duration, Chord>> chordList = song.chordList();
+        ArrayList<Entry<Duration, Chord>> chordList = composition.chordList();
 
         assertEquals(Duration.ZERO, chordList.get(0).getKey());
         Chord chord1 = chordList.get(0).getValue();

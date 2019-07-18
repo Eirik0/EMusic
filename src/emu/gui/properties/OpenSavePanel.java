@@ -9,13 +9,13 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import emu.music.mediator.SongMediator;
+import emu.music.mediator.CompositionMediator;
 
 @SuppressWarnings("serial")
 public class OpenSavePanel extends JPanel {
     private final JFileChooser fileChooser;
 
-    public OpenSavePanel(SongMediator songMediator) {
+    public OpenSavePanel(CompositionMediator compositionMediator) {
         setBackground(Color.WHITE);
 
         fileChooser = new JFileChooser();
@@ -24,14 +24,14 @@ public class OpenSavePanel extends JPanel {
         JButton openButton = ComponentCreator.createButton("Open", e -> {
             if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
-                songMediator.loadSongFromFile(selectedFile);
+                compositionMediator.loadCompositionFromFile(selectedFile);
             }
         });
 
         JButton saveButton = ComponentCreator.createButton("Save", e -> {
             if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
-                songMediator.saveSongToFile(selectedFile);
+                compositionMediator.saveCompositionToFile(selectedFile);
             }
         });
 

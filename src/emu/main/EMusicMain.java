@@ -16,19 +16,19 @@ import javax.swing.JViewport;
 import javax.swing.ScrollPaneConstants;
 
 import emu.gui.PianoKeyRowHeader;
-import emu.gui.SongScrollablePanel;
+import emu.gui.CompositionScrollablePanel;
 import emu.gui.TimeSignatureColumnHeader;
 import emu.gui.mediator.GraphicsDrawer;
 import emu.gui.mediator.ThreadTimer;
-import emu.gui.mediator.ViewSongProperties;
+import emu.gui.mediator.ViewCompositionProperties;
 import emu.gui.mediator.ViewUserInput;
 import emu.gui.mediator.ViewportView;
 import emu.gui.mouse.HeaderMouseController;
-import emu.gui.mouse.SongMouseAdapter;
+import emu.gui.mouse.CompositionMouseAdapter;
 import emu.gui.mouse.ViewMouseController;
-import emu.gui.properties.SongPropertiesPanel;
+import emu.gui.properties.CompositionPropertiesPanel;
 import emu.jmusic.JMusicPlayer;
-import emu.music.mediator.SongMediator;
+import emu.music.mediator.CompositionMediator;
 import emu.music.mediator.state.NoteEntryState;
 import emu.music.properties.NoteDimension;
 import emu.util.EMath;
@@ -50,34 +50,34 @@ public class EMusicMain {
         JScrollPane scrollPane = createScrollPane();
         JViewport viewport = scrollPane.getViewport();
 
-        SongMediator songMediator = new SongMediator(new GraphicsDrawer(), new JMusicPlayer(), new ThreadTimer());
-        songMediator.setHeaderDrawers(new GraphicsDrawer(), new GraphicsDrawer());
+        CompositionMediator compositionMediator = new CompositionMediator(new GraphicsDrawer(), new JMusicPlayer(), new ThreadTimer());
+        compositionMediator.setHeaderDrawers(new GraphicsDrawer(), new GraphicsDrawer());
 
-        PianoKeyRowHeader pianoKeyRowHeader = new PianoKeyRowHeader(songMediator);
+        PianoKeyRowHeader pianoKeyRowHeader = new PianoKeyRowHeader(compositionMediator);
 
-        TimeSignatureColumnHeader timeSignatureColumnHeader = new TimeSignatureColumnHeader(songMediator);
-        SongMouseAdapter headerMouseAdapter = new SongMouseAdapter(new HeaderMouseController(songMediator, timeSignatureColumnHeader));
+        TimeSignatureColumnHeader timeSignatureColumnHeader = new TimeSignatureColumnHeader(compositionMediator);
+        CompositionMouseAdapter headerMouseAdapter = new CompositionMouseAdapter(new HeaderMouseController(compositionMediator, timeSignatureColumnHeader));
         timeSignatureColumnHeader.addMouseListener(headerMouseAdapter);
         timeSignatureColumnHeader.addMouseMotionListener(headerMouseAdapter);
-        songMediator.setColumnHeaderUserInput(new ViewUserInput(headerMouseAdapter));
+        compositionMediator.setColumnHeaderUserInput(new ViewUserInput(headerMouseAdapter));
 
-        setupScrollPane(scrollPane, songMediator, pianoKeyRowHeader, timeSignatureColumnHeader);
+        setupScrollPane(scrollPane, compositionMediator, pianoKeyRowHeader, timeSignatureColumnHeader);
 
         ViewportView view = new ViewportView(viewport, pianoKeyRowHeader, timeSignatureColumnHeader);
-        songMediator.setView(view);
+        compositionMediator.setView(view);
 
-        SongPropertiesPanel propertiesPanel = new SongPropertiesPanel(songMediator);
-        ViewSongProperties songProperties = new ViewSongProperties(propertiesPanel, timeSignatureColumnHeader);
-        songMediator.setSongProperties(songProperties);
+        CompositionPropertiesPanel propertiesPanel = new CompositionPropertiesPanel(compositionMediator);
+        ViewCompositionProperties compositionProperties = new ViewCompositionProperties(propertiesPanel, timeSignatureColumnHeader);
+        compositionMediator.setCompositionProperties(compositionProperties);
 
-        SongMouseAdapter songMouseAdapter = new SongMouseAdapter(new ViewMouseController(songMediator));
-        songMediator.setUserInput(new ViewUserInput(songMouseAdapter));
+        CompositionMouseAdapter compositionMouseAdapter = new CompositionMouseAdapter(new ViewMouseController(compositionMediator));
+        compositionMediator.setUserInput(new ViewUserInput(compositionMouseAdapter));
 
-        songMediator.setState(NoteEntryState.class);
+        compositionMediator.setState(NoteEntryState.class);
 
-        SongScrollablePanel songPanel = new SongScrollablePanel(songMediator);
+        CompositionScrollablePanel compositionPanel = new CompositionScrollablePanel(compositionMediator);
 
-        setupViewport(viewport, songMediator, songPanel, songMouseAdapter);
+        setupViewport(viewport, compositionMediator, compositionPanel, compositionMouseAdapter);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(propertiesPanel, BorderLayout.NORTH);
@@ -98,13 +98,13 @@ public class EMusicMain {
         return scrollPane;
     }
 
-    private static void setupScrollPane(JScrollPane scrollPane, SongMediator songMediator, PianoKeyRowHeader pianoKeyRowHeader,
+    private static void setupScrollPane(JScrollPane scrollPane, CompositionMediator compositionMediator, PianoKeyRowHeader pianoKeyRowHeader,
             TimeSignatureColumnHeader timeSignatureColumnHeader) {
         scrollPane.setRowHeaderView(pianoKeyRowHeader);
         scrollPane.setColumnHeaderView(timeSignatureColumnHeader);
         JPanel cornerPanel = emu.gui.properties.ComponentCreator.createPanel(null);
         JButton backToStartButton = emu.gui.properties.ComponentCreator.createButton("<", e -> {
-            songMediator.setPlayerStartFromHeader(true);
+            compositionMediator.setPlayerStartFromHeader(true);
             timeSignatureColumnHeader.repaint();
         });
         backToStartButton.setMargin(new Insets(0, 2, 0, 2));
@@ -113,17 +113,17 @@ public class EMusicMain {
         scrollPane.setCorner(ScrollPaneConstants.UPPER_RIGHT_CORNER, emu.gui.properties.ComponentCreator.createPanel(null));
     }
 
-    private static void setupViewport(JViewport viewport, SongMediator songMediator, SongScrollablePanel songPanel, SongMouseAdapter songMouseAdapter) {
+    private static void setupViewport(JViewport viewport, CompositionMediator compositionMediator, CompositionScrollablePanel compositionPanel, CompositionMouseAdapter compositionMouseAdapter) {
         viewport.setBackground(Color.WHITE);
-        viewport.setView(songPanel);
+        viewport.setView(compositionPanel);
         viewport.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                songMediator.resizeView();
+                compositionMediator.resizeView();
             }
         });
-        viewport.addMouseListener(songMouseAdapter);
-        viewport.addMouseMotionListener(songMouseAdapter);
-        viewport.addMouseWheelListener(songMouseAdapter);
+        viewport.addMouseListener(compositionMouseAdapter);
+        viewport.addMouseMotionListener(compositionMouseAdapter);
+        viewport.addMouseWheelListener(compositionMouseAdapter);
     }
 }

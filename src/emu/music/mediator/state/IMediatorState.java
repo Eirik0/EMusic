@@ -1,9 +1,9 @@
 package emu.music.mediator.state;
 
-import emu.music.Song;
+import emu.music.Composition;
 
 public interface IMediatorState {
-    public void setSong(Song song);
+    public void setComposition(Composition composition);
 
     public void mousePressed(int button);
 

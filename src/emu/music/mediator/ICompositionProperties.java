@@ -5,7 +5,7 @@ import emu.music.properties.DrawingOptions;
 import emu.music.properties.NoteDimension;
 import emu.music.properties.TimeSignature;
 
-public interface ISongProperties {
+public interface ICompositionProperties {
     public int getSelectedVoice();
 
     public NoteDimension getNoteDimension();

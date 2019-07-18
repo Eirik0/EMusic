@@ -8,9 +8,9 @@ import javax.swing.SwingUtilities;
 
 import emu.gui.PianoKeyRowHeader;
 import emu.gui.TimeSignatureColumnHeader;
-import emu.music.mediator.ISongView;
+import emu.music.mediator.ICompositionView;
 
-public class ViewportView implements ISongView {
+public class ViewportView implements ICompositionView {
     private final JViewport viewport;
     private final PianoKeyRowHeader pianoKeyRowHeader;
     private final TimeSignatureColumnHeader timeSignatureColumnHeader;

@@ -7,14 +7,14 @@ import java.awt.Rectangle;
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
 
-import emu.music.mediator.SongMediator;
+import emu.music.mediator.CompositionMediator;
 
 @SuppressWarnings("serial")
-public class SongScrollablePanel extends JPanel implements Scrollable {
-    private final SongMediator songMediator;
+public class CompositionScrollablePanel extends JPanel implements Scrollable {
+    private final CompositionMediator compositionMediator;
 
-    public SongScrollablePanel(SongMediator songMediator) {
-        this.songMediator = songMediator;
+    public CompositionScrollablePanel(CompositionMediator compositionMediator) {
+        this.compositionMediator = compositionMediator;
     }
 
     @Override
@@ -44,10 +44,10 @@ public class SongScrollablePanel extends JPanel implements Scrollable {
 
     @Override
     protected void paintComponent(Graphics g) {
-        songMediator.drawBackground();
-        songMediator.drawBars();
-        songMediator.drawSong();
-        songMediator.drawState();
-        songMediator.drawSongOn(g);
+        compositionMediator.drawBackground();
+        compositionMediator.drawBars();
+        compositionMediator.drawComposition();
+        compositionMediator.drawState();
+        compositionMediator.drawCompositionOn(g);
     }
 }

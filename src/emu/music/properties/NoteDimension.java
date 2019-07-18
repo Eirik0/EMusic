@@ -38,7 +38,7 @@ public class NoteDimension {
         return 16 * sixteenthNoteWidth * duration.doubleValue();
     }
 
-    public int songHeightInPixels() {
+    public int compositionHeightInPixels() {
         return EMath.round(noteHeight * TOTAL_NOTES);
     }
 }

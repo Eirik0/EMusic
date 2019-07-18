@@ -1,28 +1,28 @@
 package emu.gui.mouse;
 
-import emu.music.mediator.SongMediator;
+import emu.music.mediator.CompositionMediator;
 
 public class ViewMouseController implements IMouseController {
-    private final SongMediator songMediator;
+    private final CompositionMediator compositionMediator;
 
-    public ViewMouseController(SongMediator songMediator) {
-        this.songMediator = songMediator;
+    public ViewMouseController(CompositionMediator compositionMediator) {
+        this.compositionMediator = compositionMediator;
     }
 
     @Override
     public void onMousePressed(int button) {
-        songMediator.mousePressed(button);
+        compositionMediator.mousePressed(button);
 
     }
 
     @Override
     public void onMouseReleased() {
-        songMediator.mouseReleased();
-        songMediator.resizeView();
+        compositionMediator.mouseReleased();
+        compositionMediator.resizeView();
     }
 
     @Override
     public void onSetMouseXY() {
-        songMediator.repaintView();
+        compositionMediator.repaintView();
     }
 }

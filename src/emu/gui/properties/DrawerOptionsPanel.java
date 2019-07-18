@@ -5,30 +5,30 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
-import emu.music.mediator.SongMediator;
+import emu.music.mediator.CompositionMediator;
 import emu.music.properties.DrawingOptions;
 
 @SuppressWarnings("serial")
 public class DrawerOptionsPanel extends JPanel {
     private final DrawingOptions options = new DrawingOptions();
 
-    public DrawerOptionsPanel(SongMediator songMediator) {
+    public DrawerOptionsPanel(CompositionMediator compositionMediator) {
         setBackground(Color.WHITE);
         JPanel optionsPanel = ComponentCreator.createPanel(new GridLayout(3, 1));
 
         optionsPanel.add(ComponentCreator.createCheckBox("Draw Keys", e -> {
             options.toggleDrawKeys();
-            songMediator.repaintView();
+            compositionMediator.repaintView();
         }));
 
         optionsPanel.add(ComponentCreator.createCheckBox("Draw Bars", e -> {
             options.toggleDrawBars();
-            songMediator.repaintView();
+            compositionMediator.repaintView();
         }));
 
         optionsPanel.add(ComponentCreator.createCheckBox("Draw Line When Playing", e -> {
             options.toggleDrawPlayingLine();
-            songMediator.repaintView();
+            compositionMediator.repaintView();
         }));
 
         add(optionsPanel);

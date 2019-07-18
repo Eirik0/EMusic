@@ -6,20 +6,20 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 
 import emu.main.EMusic;
-import emu.music.mediator.SongMediator;
+import emu.music.mediator.CompositionMediator;
 
 @SuppressWarnings("serial")
 public class PianoKeyRowHeader extends JComponent {
-    private final SongMediator songMediator;
+    private final CompositionMediator compositionMediator;
 
-    public PianoKeyRowHeader(SongMediator songMediator) {
-        this.songMediator = songMediator;
+    public PianoKeyRowHeader(CompositionMediator compositionMediator) {
+        this.compositionMediator = compositionMediator;
         setPreferredSize(new Dimension(EMusic.HEADER_WIDTH, 0));
     }
 
     @Override
     protected void paintComponent(Graphics g) {
-        songMediator.drawRowHeader();
-        songMediator.drawRowHeaderOn(g);
+        compositionMediator.drawRowHeader();
+        compositionMediator.drawRowHeaderOn(g);
     }
 }

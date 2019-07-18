@@ -8,17 +8,17 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import emu.music.mediator.SongMediator;
+import emu.music.mediator.CompositionMediator;
 import emu.music.properties.NoteDimension;
 
 @SuppressWarnings("serial")
 public class NoteDimensionPanel extends JPanel {
-    private final SongMediator songMediator;
+    private final CompositionMediator compositionMediator;
 
     private final NoteDimension noteDimension = new NoteDimension();
 
-    public NoteDimensionPanel(SongMediator songMediator) {
-        this.songMediator = songMediator;
+    public NoteDimensionPanel(CompositionMediator compositionMediator) {
+        this.compositionMediator = compositionMediator;
 
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
@@ -44,7 +44,7 @@ public class NoteDimensionPanel extends JPanel {
     private JButton createPlusMinusButton(String text, Runnable action) {
         JButton button = ComponentCreator.createButton(text, e -> {
             action.run();
-            songMediator.resizeView();
+            compositionMediator.resizeView();
         });
         button.setMargin(new Insets(0, 2, 0, 2));
         return button;

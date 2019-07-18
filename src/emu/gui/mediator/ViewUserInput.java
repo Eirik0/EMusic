@@ -1,12 +1,12 @@
 package emu.gui.mediator;
 
-import emu.gui.mouse.SongMouseAdapter;
+import emu.gui.mouse.CompositionMouseAdapter;
 import emu.music.mediator.IUserInput;
 
 public class ViewUserInput implements IUserInput {
-    private final SongMouseAdapter sma;
+    private final CompositionMouseAdapter sma;
 
-    public ViewUserInput(SongMouseAdapter sma) {
+    public ViewUserInput(CompositionMouseAdapter sma) {
         this.sma = sma;
     }
 

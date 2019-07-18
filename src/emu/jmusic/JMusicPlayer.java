@@ -9,9 +9,9 @@ import emu.music.Chord;
 import emu.music.Duration;
 import emu.music.Note;
 import emu.music.NoteContainer;
-import emu.music.Song;
-import emu.music.mediator.ISongPlayer;
-import emu.music.mediator.ISongProperties;
+import emu.music.Composition;
+import emu.music.mediator.ICompositionPlayer;
+import emu.music.mediator.ICompositionProperties;
 import emu.music.properties.NoteDimension;
 import emu.music.properties.TimeSignature;
 import emu.util.EMath;
@@ -22,33 +22,33 @@ import jm.util.Play;
 import jm.util.Read;
 import jm.util.Write;
 
-public class JMusicPlayer implements ISongPlayer {
+public class JMusicPlayer implements ICompositionPlayer {
     public JMusicPlayer() {
         // to prevent delay later
         Play.midi(new Score(), false, false, 1, 0);
     }
 
     @Override
-    public void playChord(Chord chord, ISongProperties songProperties) {
+    public void playChord(Chord chord, ICompositionProperties compositionProperties) {
         try {
-            Play.midi(convertChord(chord, songProperties), false, false, 1, 0);
+            Play.midi(convertChord(chord, compositionProperties), false, false, 1, 0);
         } catch (Exception e) {
         }
     }
 
     @Override
-    public void playChords(List<Entry<Duration, Chord>> chords, ISongProperties songProperties) {
-        Play.midi(convertChords(chords, songProperties, true), false, false, 1, 0);
+    public void playChords(List<Entry<Duration, Chord>> chords, ICompositionProperties compositionProperties) {
+        Play.midi(convertChords(chords, compositionProperties, true), false, false, 1, 0);
     }
 
-    public static Song songFromFile(File file, ISongProperties songProperties) {
+    public static Composition compositionFromFile(File file, ICompositionProperties compositionProperties) {
         Score score = new Score();
         Read.midi(score, file.getPath());
-        return convertScore(score, songProperties);
+        return convertScore(score, compositionProperties);
     }
 
-    public static void songToFile(File file, Song song, ISongProperties songProperties) {
-        Write.midi(convertChords(song.chordList(), songProperties, false), file.getPath());
+    public static void compositionToFile(File file, Composition composition, ICompositionProperties compositionProperties) {
+        Write.midi(convertChords(composition.chordList(), compositionProperties, false), file.getPath());
 
     }
 
@@ -81,13 +81,13 @@ public class JMusicPlayer implements ISongPlayer {
         return new jm.music.data.Note(convertPitch(note.key), convertDuration(note.duration));
     }
 
-    public static Score convertChord(Chord chord, ISongProperties songProperties) {
-        Duration meter = songProperties.getTimeSignature().getMeter();
-        double tempo = songProperties.getTempo();
+    public static Score convertChord(Chord chord, ICompositionProperties compositionProperties) {
+        Duration meter = compositionProperties.getTimeSignature().getMeter();
+        double tempo = compositionProperties.getTempo();
         Score score = createScore(meter, tempo);
         NoteContainer[] notes = chord.getNotes();
         for (int i = 0; i < notes.length; i++) {
-            int instrument = songProperties.getInstruments()[i];
+            int instrument = compositionProperties.getInstruments()[i];
             if (notes[i] != null) {
                 Note note = notes[i].getNote();
                 Part part = createPart(instrument);
@@ -101,12 +101,12 @@ public class JMusicPlayer implements ISongPlayer {
         return score;
     }
 
-    public static Score convertChords(List<Entry<Duration, Chord>> chords, ISongProperties songProperties, boolean offset) {
-        int[] instruments = songProperties.getInstruments();
-        Duration meter = songProperties.getTimeSignature().getMeter();
-        double tempo = songProperties.getTempo();
+    public static Score convertChords(List<Entry<Duration, Chord>> chords, ICompositionProperties compositionProperties, boolean offset) {
+        int[] instruments = compositionProperties.getInstruments();
+        Duration meter = compositionProperties.getTimeSignature().getMeter();
+        double tempo = compositionProperties.getTempo();
         Score score = createScore(meter, tempo);
-        Duration startOffset = offset ? songProperties.getPlayerStart() : Duration.ZERO;
+        Duration startOffset = offset ? compositionProperties.getPlayerStart() : Duration.ZERO;
         for (Entry<Duration, Chord> durationChord : chords) {
             Duration noteStart = durationChord.getKey().subtract(startOffset);
             NoteContainer[] notes = durationChord.getValue().getNotes();
@@ -135,14 +135,14 @@ public class JMusicPlayer implements ISongPlayer {
         return NoteDimension.TOTAL_NOTES + jm.constants.Pitches.C0 - pitch - 1;
     }
 
-    public static Song convertScore(Score score, ISongProperties songProperties) {
+    public static Composition convertScore(Score score, ICompositionProperties compositionProperties) {
         if (score.getPartArray().length > EMusic.NUMBER_OF_VOICES) {
             throw new IllegalStateException("Score has " + score.getPartArray().length + " parts. Maximum is " + EMusic.NUMBER_OF_VOICES);
         }
 
-        setProperties(score, songProperties);
+        setProperties(score, compositionProperties);
 
-        Song song = new Song();
+        Composition composition = new Composition();
         int[] instruments = new int[EMusic.NUMBER_OF_VOICES];
 
         int voice = 0;
@@ -155,21 +155,21 @@ public class JMusicPlayer implements ISongPlayer {
                         continue;
                     }
                     Note note = new Note(convertKey(jMNote.getPitch()), EMath.guessDuration(jMNote.getRhythmValue() / 4));
-                    song.addNote(EMath.guessDuration(phrase.getNoteStartTime(i) / 4), note, voice);
+                    composition.addNote(EMath.guessDuration(phrase.getNoteStartTime(i) / 4), note, voice);
                 }
             }
             instruments[voice++] = part.getInstrument();
         }
-        songProperties.setInstruments(instruments);
-        return song;
+        compositionProperties.setInstruments(instruments);
+        return composition;
     }
 
-    private static void setProperties(Score score, ISongProperties songProperties) {
-        TimeSignature oldTimeSignature = songProperties.getTimeSignature();
+    private static void setProperties(Score score, ICompositionProperties compositionProperties) {
+        TimeSignature oldTimeSignature = compositionProperties.getTimeSignature();
         TimeSignature newTimeSignature = new TimeSignature(score.getNumerator(), score.getDenominator());
         newTimeSignature.setNoteDuration(oldTimeSignature.getNoteDuration());
         newTimeSignature.setDivision(oldTimeSignature.getDivision());
-        songProperties.setTimeSignature(newTimeSignature);
-        songProperties.setTempo(EMath.round(score.getTempo()));
+        compositionProperties.setTimeSignature(newTimeSignature);
+        compositionProperties.setTempo(EMath.round(score.getTempo()));
     }
 }

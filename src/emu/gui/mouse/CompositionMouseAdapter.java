@@ -3,7 +3,7 @@ package emu.gui.mouse;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class SongMouseAdapter extends MouseAdapter {
+public class CompositionMouseAdapter extends MouseAdapter {
     public static final int LEFT_CLICK = 1;
     public static final int RIGHT_CLICK = 3;
 
@@ -13,7 +13,7 @@ public class SongMouseAdapter extends MouseAdapter {
 
     private final IMouseController controller;
 
-    public SongMouseAdapter(IMouseController controller) {
+    public CompositionMouseAdapter(IMouseController controller) {
         this.controller = controller;
     }
 

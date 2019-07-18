@@ -6,7 +6,7 @@ import emu.music.properties.DrawingOptions;
 import emu.music.properties.NoteDimension;
 import emu.music.properties.TimeSignature;
 
-public class TestSongProperties implements ISongProperties {
+public class TestCompositionProperties implements ICompositionProperties {
     public int selectedVoice = 0;
     public NoteDimension noteDimension = new NoteDimension();
     private TimeSignature timeSignature = new TimeSignature(4, 4);

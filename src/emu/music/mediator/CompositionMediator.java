@@ -5,14 +5,14 @@ import java.io.File;
 
 import emu.jmusic.JMusicPlayer;
 import emu.music.Duration;
-import emu.music.Song;
+import emu.music.Composition;
 import emu.music.mediator.state.IMediatorState;
 import emu.music.mediator.state.MediatorStateFactory;
 import emu.util.EMath;
 
-public class SongMediator {
-    private final IDrawer songDrawer;
-    private final ISongPlayer player;
+public class CompositionMediator {
+    private final IDrawer compositionDrawer;
+    private final ICompositionPlayer player;
     private final ITimer timer;
 
     private IDrawer rowHeaderDrawer;
@@ -20,31 +20,31 @@ public class SongMediator {
     private IDrawer columnHeaderDrawer;
     private IUserInput columnHeaderUserInput;
 
-    private ISongView view;
-    private ISongProperties songProperties;
+    private ICompositionView view;
+    private ICompositionProperties compositionProperties;
     private IUserInput userInput;
 
     private IMediatorState state; // set may be called multiple times
 
-    private Song song;
+    private Composition composition;
 
-    public SongMediator(IDrawer drawer, ISongPlayer player, ITimer timer) {
-        songDrawer = drawer;
+    public CompositionMediator(IDrawer drawer, ICompositionPlayer player, ITimer timer) {
+        compositionDrawer = drawer;
         this.player = player;
         this.timer = timer;
 
-        song = new Song();
+        composition = new Composition();
 
-        MediatorStateFactory.updateReferences(songDrawer, this.player, this.timer);
+        MediatorStateFactory.updateReferences(compositionDrawer, this.player, this.timer);
     }
 
     // Initialization
-    public void setSong(Song song) {
-        this.song = song;
-        state.setSong(song);
+    public void setComposition(Composition composition) {
+        this.composition = composition;
+        state.setComposition(composition);
     }
 
-    public void setView(ISongView view) {
+    public void setView(ICompositionView view) {
         this.view = view;
         MediatorStateFactory.updateReferences(this.view);
     }
@@ -58,9 +58,9 @@ public class SongMediator {
         this.columnHeaderUserInput = columnHeaderUserInput;
     }
 
-    public void setSongProperties(ISongProperties songProperties) {
-        this.songProperties = songProperties;
-        MediatorStateFactory.updateReferences(this.songProperties);
+    public void setCompositionProperties(ICompositionProperties compositionProperties) {
+        this.compositionProperties = compositionProperties;
+        MediatorStateFactory.updateReferences(this.compositionProperties);
     }
 
     public void setUserInput(IUserInput userInput) {
@@ -74,27 +74,27 @@ public class SongMediator {
             state.finish();
         }
         state = MediatorStateFactory.newInstance(stateClass);
-        state.setSong(song);
+        state.setComposition(composition);
     }
 
     public void setPlayerStartFromHeader(boolean backToStart) {
         if (backToStart) {
-            songProperties.setPlayerStart(Duration.ZERO);
+            compositionProperties.setPlayerStart(Duration.ZERO);
         } else {
             int x = view.getX0() + columnHeaderUserInput.getMouseX();
-            double d = x / (songProperties.getNoteDimension().getSixteenthNoteWidth() * 16);
-            songProperties.setPlayerStart(EMath.guessDuration(d));
+            double d = x / (compositionProperties.getNoteDimension().getSixteenthNoteWidth() * 16);
+            compositionProperties.setPlayerStart(EMath.guessDuration(d));
         }
     }
 
-    public void loadSongFromFile(File file) {
-        setSong(JMusicPlayer.songFromFile(file, songProperties));
+    public void loadCompositionFromFile(File file) {
+        setComposition(JMusicPlayer.compositionFromFile(file, compositionProperties));
         view.setPosition(0, view.getY0());
         resizeView();
     }
 
-    public void saveSongToFile(File file) {
-        JMusicPlayer.songToFile(file, song, songProperties);
+    public void saveCompositionToFile(File file) {
+        JMusicPlayer.compositionToFile(file, composition, compositionProperties);
     }
 
     public void resizeView() {
@@ -107,12 +107,12 @@ public class SongMediator {
 
     // Size
     public int getScrollableWidth() {
-        int songDurationInPixels = (int) songProperties.getNoteDimension().durationInPixels(song.totalDuration());
-        return Math.max(2 * view.getWidth(), songDurationInPixels + view.getWidth());
+        int compositionDurationInPixels = (int) compositionProperties.getNoteDimension().durationInPixels(composition.totalDuration());
+        return Math.max(2 * view.getWidth(), compositionDurationInPixels + view.getWidth());
     }
 
     public int getScrollableHeight() {
-        return songProperties.getNoteDimension().songHeightInPixels();
+        return compositionProperties.getNoteDimension().compositionHeightInPixels();
     }
 
     // User input
@@ -126,28 +126,28 @@ public class SongMediator {
 
     // Drawing view
     public void drawBackground() {
-        DrawerHelper.drawBackground(songDrawer, view, songProperties);
+        DrawerHelper.drawBackground(compositionDrawer, view, compositionProperties);
     }
 
     public void drawBars() {
-        DrawerHelper.drawBars(songDrawer, view, songProperties);
+        DrawerHelper.drawBars(compositionDrawer, view, compositionProperties);
     }
 
-    public void drawSong() {
-        DrawerHelper.drawSong(songDrawer, view, songProperties, song);
+    public void drawComposition() {
+        DrawerHelper.drawComposition(compositionDrawer, view, compositionProperties, composition);
     }
 
     public void drawState() {
         state.draw();
     }
 
-    public void drawSongOn(Graphics g) {
-        g.drawImage(songDrawer.getImage(), view.getX0(), view.getY0(), null);
+    public void drawCompositionOn(Graphics g) {
+        g.drawImage(compositionDrawer.getImage(), view.getX0(), view.getY0(), null);
     }
 
     // Drawing headers
     public void drawRowHeader() {
-        DrawerHelper.drawRowHeader(rowHeaderDrawer, view, songProperties);
+        DrawerHelper.drawRowHeader(rowHeaderDrawer, view, compositionProperties);
     }
 
     public void drawRowHeaderOn(Graphics g) {
@@ -155,7 +155,7 @@ public class SongMediator {
     }
 
     public void drawColumnHeader() {
-        DrawerHelper.drawColumnHeader(columnHeaderDrawer, view, songProperties, columnHeaderUserInput);
+        DrawerHelper.drawColumnHeader(columnHeaderDrawer, view, compositionProperties, columnHeaderUserInput);
     }
 
     public void drawColumnHeaderOn(Graphics g) {

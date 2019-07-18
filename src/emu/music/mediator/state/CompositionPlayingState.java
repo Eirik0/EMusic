@@ -10,41 +10,41 @@ import emu.music.Duration;
 import emu.music.Note;
 import emu.music.NoteContainer;
 import emu.music.PositionedNote;
-import emu.music.Song;
+import emu.music.Composition;
 import emu.music.mediator.DrawerHelper;
 import emu.music.mediator.IDrawer;
-import emu.music.mediator.ISongPlayer;
-import emu.music.mediator.ISongProperties;
-import emu.music.mediator.ISongView;
+import emu.music.mediator.ICompositionPlayer;
+import emu.music.mediator.ICompositionProperties;
+import emu.music.mediator.ICompositionView;
 import emu.music.mediator.ITimer;
 import emu.music.properties.NoteDimension;
 import emu.util.EMath;
 
-public class SongPlayingState implements IMediatorState {
-    private final ISongView view;
+public class CompositionPlayingState implements IMediatorState {
+    private final ICompositionView view;
     private final IDrawer drawer;
-    private final ISongPlayer player;
+    private final ICompositionPlayer player;
     private final ITimer timer;
-    private final ISongProperties songProperties;
+    private final ICompositionProperties compositionProperties;
 
-    private SongPlayingRunnable songPlayingRunnable;
+    private CompositionPlayingRunnable compositionPlayingRunnable;
     private final Duration playerStart;
 
     private List<PositionedNote> notesBeingPlayed = Collections.emptyList();
 
-    public SongPlayingState(ISongView view, IDrawer drawer, ISongPlayer player, ITimer timer, ISongProperties songProperties) {
+    public CompositionPlayingState(ICompositionView view, IDrawer drawer, ICompositionPlayer player, ITimer timer, ICompositionProperties compositionProperties) {
         this.view = view;
         this.drawer = drawer;
         this.player = player;
         this.timer = timer;
-        this.songProperties = songProperties;
-        playerStart = songProperties.getPlayerStart();
+        this.compositionProperties = compositionProperties;
+        playerStart = compositionProperties.getPlayerStart();
     }
 
     @Override
-    public void setSong(Song song) {
-        songPlayingRunnable = new SongPlayingRunnable(song);
-        new Thread(songPlayingRunnable).start();
+    public void setComposition(Composition composition) {
+        compositionPlayingRunnable = new CompositionPlayingRunnable(composition);
+        new Thread(compositionPlayingRunnable).start();
     }
 
     @Override
@@ -57,13 +57,13 @@ public class SongPlayingState implements IMediatorState {
 
     @Override
     public void draw() {
-        if (songProperties.getDrawingOptions().shouldDrawPlayingLine()) {
+        if (compositionProperties.getDrawingOptions().shouldDrawPlayingLine()) {
             int x = EMath.round(Math.min(view.getWidth() / 2, getPixelsElapsed() - view.getX0()));
             drawer.setColor(DrawerHelper.PLAYER_BAR_COLOR);
             drawer.drawLine(x, 0, x, view.getHeight());
         }
 
-        NoteDimension noteDimension = songProperties.getNoteDimension();
+        NoteDimension noteDimension = compositionProperties.getNoteDimension();
         for (PositionedNote positionedNote : notesBeingPlayed) {
             double startInPixels = noteDimension.durationInPixels(positionedNote.chordStart);
             DrawerHelper.drawNote(drawer, view, noteDimension, positionedNote.note, startInPixels, positionedNote.voice, true);
@@ -71,22 +71,22 @@ public class SongPlayingState implements IMediatorState {
     }
 
     private double getPixelsElapsed() {
-        double pixelsPerQuarterNote = songProperties.getNoteDimension().getSixteenthNoteWidth() * 4;
+        double pixelsPerQuarterNote = compositionProperties.getNoteDimension().getSixteenthNoteWidth() * 4;
         double beatsElapsed = getBeatsElapsed();
-        double offset = songProperties.getNoteDimension().durationInPixels(playerStart);
+        double offset = compositionProperties.getNoteDimension().durationInPixels(playerStart);
         return beatsElapsed * pixelsPerQuarterNote + offset;
     }
 
     private double getBeatsElapsed() {
-        return timer.getTimeElapsed() * songProperties.getTempo() / 60000.0; // minutes to millis
+        return timer.getTimeElapsed() * compositionProperties.getTempo() / 60000.0; // minutes to millis
     }
 
     @Override
     public void finish() {
-        if (songPlayingRunnable != null) {
-            songPlayingRunnable.stopRequested = true;
+        if (compositionPlayingRunnable != null) {
+            compositionPlayingRunnable.stopRequested = true;
             // play an "empty" chord to stop the player playing
-            player.playChord(new Chord(new Note(0, Duration.ZERO), 0), songProperties);
+            player.playChord(new Chord(new Note(0, Duration.ZERO), 0), compositionProperties);
         }
     }
 
@@ -106,18 +106,18 @@ public class SongPlayingState implements IMediatorState {
         return notes;
     }
 
-    private class SongPlayingRunnable implements Runnable {
+    private class CompositionPlayingRunnable implements Runnable {
         private boolean stopRequested = false;
-        private final Song song;
+        private final Composition composition;
 
-        public SongPlayingRunnable(Song song) {
-            this.song = song;
+        public CompositionPlayingRunnable(Composition composition) {
+            this.composition = composition;
         }
 
         @Override
         public void run() {
-            Duration totalDuration = song.totalDuration();
-            ArrayList<Entry<Duration, Chord>> chordList = song.chordList();
+            Duration totalDuration = composition.totalDuration();
+            ArrayList<Entry<Duration, Chord>> chordList = composition.chordList();
             int i = 0;
             for (; !stopRequested && i < chordList.size() && chordList.get(i).getKey().compareTo(playerStart) < 0; i++) {
                 // skip notes before the requested start
@@ -127,7 +127,7 @@ public class SongPlayingState implements IMediatorState {
                 for (int j = i; !stopRequested && j < chordList.size(); ++j) {
                     chords.add(chordList.get(j));
                 }
-                player.playChords(chords, songProperties);
+                player.playChords(chords, compositionProperties);
                 timer.start();
             } else {
                 return;
@@ -136,7 +136,7 @@ public class SongPlayingState implements IMediatorState {
             double pixelsElapsed = getPixelsElapsed();
             int lastX = Integer.MIN_VALUE;
 
-            while (!stopRequested && pixelsElapsed < songProperties.getNoteDimension().durationInPixels(totalDuration)) {
+            while (!stopRequested && pixelsElapsed < compositionProperties.getNoteDimension().durationInPixels(totalDuration)) {
                 Duration currentDuration = playerStart.add(EMath.guessDuration(getBeatsElapsed() / 4));
 
                 // find which notes are playing

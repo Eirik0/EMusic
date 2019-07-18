@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 import emu.main.EMusic;
 import emu.music.Duration;
-import emu.music.mediator.SongMediator;
+import emu.music.mediator.CompositionMediator;
 import emu.music.properties.TimeSignature;
 
 @SuppressWarnings("serial")
@@ -20,24 +20,24 @@ public class TimeSignaturePanel extends JPanel {
     private final JComboBox<Duration> noteDuratioComboBox;
     private final JComboBox<Duration> divisionComboBox;
 
-    public TimeSignaturePanel(SongMediator songMediator) {
+    public TimeSignaturePanel(CompositionMediator compositionMediator) {
         setLayout(new FlowLayout(FlowLayout.LEADING));
         setBackground(Color.WHITE);
 
         meterComboBox = ComponentCreator.createComboBox(EMusic.METERS, timeSignature.getMeter(),
                 duration -> {
                     timeSignature.setMeter(duration);
-                    songMediator.repaintView();
+                    compositionMediator.repaintView();
                 });
         noteDuratioComboBox = ComponentCreator.createComboBox(EMusic.NOTE_DURATIONS, timeSignature.getNoteDuration(),
                 duration -> {
                     timeSignature.setNoteDuration(duration);
-                    songMediator.repaintView();
+                    compositionMediator.repaintView();
                 });
         divisionComboBox = ComponentCreator.createComboBox(EMusic.NOTE_DIVISIONS, timeSignature.getCalculatedDivision(),
                 duration -> {
                     timeSignature.setDivision(duration);
-                    songMediator.repaintView();
+                    compositionMediator.repaintView();
                 });
 
         add(new JLabel("Meter: "));

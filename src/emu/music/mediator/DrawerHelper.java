@@ -9,7 +9,7 @@ import emu.music.Chord;
 import emu.music.Duration;
 import emu.music.Note;
 import emu.music.NoteContainer;
-import emu.music.Song;
+import emu.music.Composition;
 import emu.music.properties.NoteDimension;
 import emu.util.EMath;
 
@@ -40,10 +40,10 @@ public class DrawerHelper {
             Color.RED, SLATE_BLUE, Color.GREEN, Color.MAGENTA, Color.ORANGE, Color.CYAN, CHARTREUSE, KHAKI,
             DARK_RED, Color.BLUE, DARK_GREEN, DARK_MAGENTA, DARK_ORANGE, DARK_CYAN, SPRING_GREEN, Color.YELLOW };
 
-    public static void drawBackground(IDrawer drawer, ISongView view, ISongProperties songProperties) {
+    public static void drawBackground(IDrawer drawer, ICompositionView view, ICompositionProperties compositionProperties) {
         drawer.setComponentSize(view.getWidth(), view.getHeight());
-        if (songProperties.getDrawingOptions().shouldDrawKeys()) {
-            drawKeys(drawer, view.getY0(), view.getWidth(), view.getHeight(), songProperties.getNoteDimension().getNoteHeight(), false);
+        if (compositionProperties.getDrawingOptions().shouldDrawKeys()) {
+            drawKeys(drawer, view.getY0(), view.getWidth(), view.getHeight(), compositionProperties.getNoteDimension().getNoteHeight(), false);
         } else {
             drawer.setColor(Color.BLACK);
             drawer.fillRect(0, 0, view.getWidth(), view.getHeight());
@@ -76,23 +76,23 @@ public class DrawerHelper {
         }
     }
 
-    public static void drawBars(IDrawer drawer, ISongView view, ISongProperties songProperties) {
-        if (songProperties.getDrawingOptions().shouldDrawBars()) {
-            drawBars(drawer, view, songProperties, false);
+    public static void drawBars(IDrawer drawer, ICompositionView view, ICompositionProperties compositionProperties) {
+        if (compositionProperties.getDrawingOptions().shouldDrawBars()) {
+            drawBars(drawer, view, compositionProperties, false);
         }
     }
 
-    private static void drawBars(IDrawer drawer, ISongView view, ISongProperties songProperties, boolean isHeader) {
+    private static void drawBars(IDrawer drawer, ICompositionView view, ICompositionProperties compositionProperties, boolean isHeader) {
         int barY0 = isHeader ? 16 : 0;
         int beatY0 = isHeader ? 24 : 0;
         int div1Y0 = isHeader ? 28 : 0;
         int div2Y0 = isHeader ? 30 : 0;
         int height = isHeader ? EMusic.HEADER_HEIGHT : view.getHeight();
-        Color barColor = songProperties.getDrawingOptions().shouldDrawKeys() || isHeader ? BAR_COLOR : Color.WHITE;
-        double divisionInPixels = songProperties.getNoteDimension().durationInPixels(songProperties.getTimeSignature().getCalculatedDivision());
-        double noteDuration = songProperties.getNoteDimension().durationInPixels(songProperties.getTimeSignature().getNoteDuration());
-        double beatInPixels = songProperties.getNoteDimension().durationInPixels(songProperties.getTimeSignature().getDurationOfBeat());
-        double barInPixels = songProperties.getNoteDimension().durationInPixels(songProperties.getTimeSignature().getDurationOfBar());
+        Color barColor = compositionProperties.getDrawingOptions().shouldDrawKeys() || isHeader ? BAR_COLOR : Color.WHITE;
+        double divisionInPixels = compositionProperties.getNoteDimension().durationInPixels(compositionProperties.getTimeSignature().getCalculatedDivision());
+        double noteDuration = compositionProperties.getNoteDimension().durationInPixels(compositionProperties.getTimeSignature().getNoteDuration());
+        double beatInPixels = compositionProperties.getNoteDimension().durationInPixels(compositionProperties.getTimeSignature().getDurationOfBeat());
+        double barInPixels = compositionProperties.getNoteDimension().durationInPixels(compositionProperties.getTimeSignature().getDurationOfBar());
         drawBars(drawer, view.getX0(), div2Y0, view.getWidth(), height, divisionInPixels, NOTE_DIVISION_2_COLOR);
         drawBars(drawer, view.getX0(), div1Y0, view.getWidth(), height, noteDuration, NOTE_DIVISION_1_COLOR);
         drawBars(drawer, view.getX0(), beatY0, view.getWidth(), height, beatInPixels, BEAT_COLOR);
@@ -108,20 +108,20 @@ public class DrawerHelper {
         }
     }
 
-    public static void drawRowHeader(IDrawer drawer, ISongView view, ISongProperties songProperties) {
+    public static void drawRowHeader(IDrawer drawer, ICompositionView view, ICompositionProperties compositionProperties) {
         drawer.setComponentSize(EMusic.HEADER_WIDTH, view.getHeight());
-        drawKeys(drawer, view.getY0(), EMusic.HEADER_WIDTH, view.getHeight(), songProperties.getNoteDimension().getNoteHeight(), true);
+        drawKeys(drawer, view.getY0(), EMusic.HEADER_WIDTH, view.getHeight(), compositionProperties.getNoteDimension().getNoteHeight(), true);
     }
 
-    public static void drawColumnHeader(IDrawer drawer, ISongView view, ISongProperties songProperties, IUserInput userInput) {
+    public static void drawColumnHeader(IDrawer drawer, ICompositionView view, ICompositionProperties compositionProperties, IUserInput userInput) {
         drawer.setComponentSize(view.getWidth(), EMusic.HEADER_HEIGHT);
         drawer.setColor(Color.WHITE);
         drawer.fillRect(0, 0, view.getWidth(), EMusic.HEADER_HEIGHT);
-        drawBars(drawer, view, songProperties, true);
-        double barInPixels = songProperties.getNoteDimension().durationInPixels(songProperties.getTimeSignature().getDurationOfBar());
+        drawBars(drawer, view, compositionProperties, true);
+        double barInPixels = compositionProperties.getNoteDimension().durationInPixels(compositionProperties.getTimeSignature().getDurationOfBar());
         drawBarText(drawer, view.getX0(), 6, view.getWidth(), barInPixels, TEXT_COLOR);
         drawColumnHeaderMouse(drawer, userInput);
-        drawPlayerStart(drawer, view, songProperties);
+        drawPlayerStart(drawer, view, compositionProperties);
     }
 
     private static void drawBarText(IDrawer drawer, int x0, int y0, int width, double barWidth, Color color) {
@@ -135,8 +135,8 @@ public class DrawerHelper {
         }
     }
 
-    private static void drawPlayerStart(IDrawer drawer, ISongView view, ISongProperties songProperties) {
-        double x = songProperties.getNoteDimension().durationInPixels(songProperties.getPlayerStart()) - view.getX0();
+    private static void drawPlayerStart(IDrawer drawer, ICompositionView view, ICompositionProperties compositionProperties) {
+        double x = compositionProperties.getNoteDimension().durationInPixels(compositionProperties.getPlayerStart()) - view.getX0();
         drawStartArrow(drawer, x, PLAYER_BAR_COLOR);
     }
 
@@ -153,10 +153,10 @@ public class DrawerHelper {
         }
     }
 
-    public static void drawSong(IDrawer drawer, ISongView view, ISongProperties songProperties, Song song) {
-        NoteDimension noteDimension = songProperties.getNoteDimension();
+    public static void drawComposition(IDrawer drawer, ICompositionView view, ICompositionProperties compositionProperties, Composition composition) {
+        NoteDimension noteDimension = compositionProperties.getNoteDimension();
         int viewportEndX = view.getX0() + view.getWidth();
-        Iterator<Entry<Duration, Chord>> entryIterator = song.getEntryIterator();
+        Iterator<Entry<Duration, Chord>> entryIterator = composition.getEntryIterator();
         while (entryIterator.hasNext()) {
             Entry<Duration, Chord> durationChord = entryIterator.next();
             double chordStart = noteDimension.durationInPixels(durationChord.getKey());
@@ -178,7 +178,7 @@ public class DrawerHelper {
         }
     }
 
-    public static void drawNote(IDrawer drawer, ISongView view, NoteDimension noteDimension, Note note, double chordStart, int voice, boolean isPlaying) {
+    public static void drawNote(IDrawer drawer, ICompositionView view, NoteDimension noteDimension, Note note, double chordStart, int voice, boolean isPlaying) {
         int offsetX = view.getX0();
         int offsetY = view.getY0();
         double noteHeight = noteDimension.getNoteHeight();

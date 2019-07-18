@@ -10,15 +10,15 @@ import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
 
-import emu.music.mediator.SongMediator;
+import emu.music.mediator.CompositionMediator;
 import emu.music.mediator.state.NoteEntryState;
-import emu.music.mediator.state.SongPlayingState;
+import emu.music.mediator.state.CompositionPlayingState;
 import emu.music.properties.DrawingOptions;
 import emu.music.properties.NoteDimension;
 import emu.music.properties.TimeSignature;
 
 @SuppressWarnings("serial")
-public class SongPropertiesPanel extends JPanel {
+public class CompositionPropertiesPanel extends JPanel {
     private static final int DEFAULT_TEMPO = 120;
 
     private final SelectedVoicePanel selectedVoicePanel;
@@ -31,14 +31,14 @@ public class SongPropertiesPanel extends JPanel {
     private final JSlider tempoSlider;
     private final JLabel tempoValueLabel = new JLabel(String.valueOf(DEFAULT_TEMPO));
 
-    public SongPropertiesPanel(SongMediator songMediator) {
+    public CompositionPropertiesPanel(CompositionMediator compositionMediator) {
         setLayout(new FlowLayout(FlowLayout.LEADING));
         setBackground(Color.WHITE);
 
         selectedVoicePanel = new SelectedVoicePanel();
-        timeSignaturePanel = new TimeSignaturePanel(songMediator);
-        noteDimensionPanel = new NoteDimensionPanel(songMediator);
-        drawerOptionsPanel = new DrawerOptionsPanel(songMediator);
+        timeSignaturePanel = new TimeSignaturePanel(compositionMediator);
+        noteDimensionPanel = new NoteDimensionPanel(compositionMediator);
+        drawerOptionsPanel = new DrawerOptionsPanel(compositionMediator);
 
         tempoSlider = ComponentCreator.createSlider(SwingConstants.HORIZONTAL, 10, 300, 30, DEFAULT_TEMPO, value -> {
             tempo = value;
@@ -48,12 +48,12 @@ public class SongPropertiesPanel extends JPanel {
         add(ComponentCreator.createSplitPane(JSplitPane.VERTICAL_SPLIT, createTopPanel(), createBottomPanel()));
         add(Box.createHorizontalStrut(20));
         add(ComponentCreator.createSplitPane(JSplitPane.VERTICAL_SPLIT,
-                ComponentCreator.createButton("Play", e -> songMediator.setState(SongPlayingState.class)),
-                ComponentCreator.createButton("Stop", e -> songMediator.setState(NoteEntryState.class))));
+                ComponentCreator.createButton("Play", e -> compositionMediator.setState(CompositionPlayingState.class)),
+                ComponentCreator.createButton("Stop", e -> compositionMediator.setState(NoteEntryState.class))));
         add(Box.createHorizontalStrut(20));
         add(noteDimensionPanel);
         add(Box.createHorizontalStrut(20));
-        add(new OpenSavePanel(songMediator));
+        add(new OpenSavePanel(compositionMediator));
         add(Box.createHorizontalStrut(20));
         add(drawerOptionsPanel);
     }
