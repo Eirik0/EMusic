@@ -2,7 +2,6 @@ package emu.music.mediator;
 
 import emu.main.EMusic;
 import emu.music.Duration;
-import emu.music.mediator.ISongProperties;
 import emu.music.properties.DrawingOptions;
 import emu.music.properties.NoteDimension;
 import emu.music.properties.TimeSignature;
