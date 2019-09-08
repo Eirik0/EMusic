@@ -15,16 +15,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.ScrollPaneConstants;
 
-import emu.gui.PianoKeyRowHeader;
 import emu.gui.CompositionScrollablePanel;
+import emu.gui.PianoKeyRowHeader;
 import emu.gui.TimeSignatureColumnHeader;
 import emu.gui.mediator.GraphicsDrawer;
 import emu.gui.mediator.ThreadTimer;
 import emu.gui.mediator.ViewCompositionProperties;
 import emu.gui.mediator.ViewUserInput;
 import emu.gui.mediator.ViewportView;
-import emu.gui.mouse.HeaderMouseController;
 import emu.gui.mouse.CompositionMouseAdapter;
+import emu.gui.mouse.HeaderMouseController;
 import emu.gui.mouse.ViewMouseController;
 import emu.gui.properties.CompositionPropertiesPanel;
 import emu.jmusic.JMusicPlayer;
@@ -32,7 +32,6 @@ import emu.music.mediator.CompositionMediator;
 import emu.music.mediator.state.NoteEntryState;
 import emu.music.properties.NoteDimension;
 import emu.util.EMath;
-import gt.component.ComponentCreator;
 
 public class EMusicMain {
     private static final String TITLE = "EMusic";
@@ -41,8 +40,6 @@ public class EMusicMain {
     private static final int DEFAULT_COMPONENT_HEIGHT = 720;
 
     public static void main(String[] args) {
-        ComponentCreator.setCrossPlatformLookAndFeel();
-
         JFrame mainFrame = new JFrame(TITLE);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setFocusable(false);
@@ -113,7 +110,8 @@ public class EMusicMain {
         scrollPane.setCorner(ScrollPaneConstants.UPPER_RIGHT_CORNER, emu.gui.properties.ComponentCreator.createPanel(null));
     }
 
-    private static void setupViewport(JViewport viewport, CompositionMediator compositionMediator, CompositionScrollablePanel compositionPanel, CompositionMouseAdapter compositionMouseAdapter) {
+    private static void setupViewport(JViewport viewport, CompositionMediator compositionMediator, CompositionScrollablePanel compositionPanel,
+            CompositionMouseAdapter compositionMouseAdapter) {
         viewport.setBackground(Color.WHITE);
         viewport.setView(compositionPanel);
         viewport.addComponentListener(new ComponentAdapter() {
